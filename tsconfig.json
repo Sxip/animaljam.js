@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    "lib": [
+      "es7"
+    ],
+    "declaration": true,
+    "esModuleInterop": false,
+    "module": "CommonJS",
+    "moduleResolution": "Node",
+    "noImplicitAny": false,
+    "removeComments": true,
+    "noLib": false,
+    "allowSyntheticDefaultImports": true,
+    "target": "ES2017",
+    "sourceMap": true,
+    "outDir": "./dist",
+    "baseUrl": "./",
+    "allowJs": false,
+    "resolveJsonModule": true,
+    "noUnusedLocals": true
+  }
+}
