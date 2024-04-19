@@ -1,6 +1,6 @@
-import { AnimalJamResponse } from 'src/request/AnimalJamResponse'
 import { Repository } from '..'
 import { API_URL, DEPLOY_VERSION } from '../../Constants'
+import { DefPackRepositoryOptions } from './DefPackRepositoryOptions'
 
 export class DefPackRepository extends Repository {
   /**
@@ -8,8 +8,8 @@ export class DefPackRepository extends Repository {
    * @param id The id of the defpack to get.
    * @returns 
    */
-  public async decode (id: string): Promise<AnimalJamResponse> {
-    const response = await this.client.request.send<AnimalJamResponse>(
+  public async decode(id: string, options?: DefPackRepositoryOptions): Promise<object> {
+    const response = await this.client.request.send<object>(
       `${API_URL}/${DEPLOY_VERSION}/defPacks`,
       {
         method: 'GET',
@@ -18,6 +18,6 @@ export class DefPackRepository extends Repository {
       },
     )
 
-    return response.data
+    return response
   }
 }

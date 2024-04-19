@@ -52,7 +52,7 @@ export class Request {
         break
       case 'binary/octet-stream':
         const buffer = Buffer.from(await response.arrayBuffer())
-        animalResponse.data = await this.decompress(buffer, options.rawDecompress)
+        animalResponse.data = Object.values(await this.decompress(buffer, options.rawDecompress))
         break
       default:
         animalResponse.data = await response.text()
@@ -80,7 +80,7 @@ export class Request {
     stream.push(null)
 
     const decoder = new AMFDecoder(stream)
-    return decoder.decode(AMF3);
+    return decoder.decode(AMF3)
   }
 
   /**
