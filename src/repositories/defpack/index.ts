@@ -70,8 +70,6 @@ export class DefPackRepository extends Repository {
    */
   private deserialize(options: DefPackDeserializeOptions): object {
     for (const obj in options.defpack) {
-      console.log(options.type)
-
       if (options.defpack[obj]?.hasOwnProperty(options.type)) 
         options.defpack[obj].name = options.defaultDefpack[options.defpack[obj][options.type]];
     }
