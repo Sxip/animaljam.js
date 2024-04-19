@@ -3,7 +3,6 @@ import { defaultsDeep } from 'lodash'
 import { createHash } from 'node:crypto'
 import { Readable } from 'node:stream'
 import { inflate, inflateRaw } from 'zlib'
-import { AnimalJamClient } from '../Client'
 import { HASH_KEY } from '../Constants'
 import { AnimalJamRequestOptions } from './AnimalJamRequestOptions'
 import { AnimalJamResponse } from './AnimalJamResponse'
@@ -15,12 +14,6 @@ export class Request {
   private readonly deaultHeaders = {
     'Host': 'ajcontent.akamaized.net',
   }
-
-  /**
-   * Constructor.
-   * @param client The client that instantiated this request.
-   */
-  public constructor(public readonly client: AnimalJamClient) { }
 
   /**
    * Sends a request to the server.
@@ -36,7 +29,6 @@ export class Request {
     })
 
     if (options.param) url = `${url}/${this.hash(options.param)}`
-
     const response = await fetch(url, options)
 
     const animalResponse: AnimalJamResponse<T> = {

@@ -3,8 +3,8 @@ import { AnimalJamClient } from '../src'
 (async () => {
   const client = new AnimalJamClient()
 
-  const defpack = await client.defpack.decode('1030', {
-    type: 'titleStrId',
+  const defpack = await client.room.decode('jamaa_township', {
+    file: 'room_main',
   })
 
   console.log(defpack)

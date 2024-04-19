@@ -7,7 +7,7 @@ export class AnimalJamClient {
   /**
    * API Request handler.
    */
-  public readonly request: Request = new Request(this)
+  public readonly request: Request = new Request()
 
   /**
    * Audio repository.

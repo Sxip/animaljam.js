@@ -1,4 +1,4 @@
-import { AnimalJamClient } from '../src/Client'
+import { AnimalJamClient } from '../src'
 
 (async () => {
   const client = new AnimalJamClient()
