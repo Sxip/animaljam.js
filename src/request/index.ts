@@ -1,8 +1,10 @@
 import { AMF3, AMFDecoder } from 'amfjs'
 import { defaultsDeep } from 'lodash'
+import { createHash } from 'node:crypto'
 import { Readable } from 'node:stream'
 import { inflate, inflateRaw } from 'zlib'
 import { AnimalJamClient } from '../Client'
+import { HASH_KEY } from '../Constants'
 import { AnimalJamRequestOptions } from './AnimalJamRequestOptions'
 import { AnimalJamResponse } from './AnimalJamResponse'
 
@@ -11,7 +13,7 @@ export class Request {
    * Default headers for all requests.
    */
   private readonly deaultHeaders = {
-    'Host': 'stage-ajcdn.akamaized.net',
+    'Host': 'ajcontent.akamaized.net',
   }
 
   /**
@@ -34,7 +36,7 @@ export class Request {
     })
 
 
-    if (options.param) url = `${url}/${options.param}`
+    if (options.param) url = `${url}/${this.hash(options.param)}`
 
     const response = await fetch(url, options)
 
@@ -79,5 +81,30 @@ export class Request {
 
     const decoder = new AMFDecoder(stream)
     return decoder.decode(AMF3);
+  }
+
+  /**
+   * Hashes input string.
+   * @param input The input string to hash.
+   * @returns {string}
+   */
+  private hash(input: string): string {
+    let increment = 0
+    let output = ''
+
+    input = `${HASH_KEY}${input}`
+
+    while (increment < input.length) {
+      if (increment % 2 == 0) {
+        output = output + input.charAt(increment)
+      } else {
+        output = input.charAt(increment) + output
+      }
+      increment++
+    }
+
+    return createHash('md5')
+      .update(output)
+      .digest('hex')
   }
 }
