@@ -1,5 +1,6 @@
 import { Repository } from '..'
 import { API_URL, DEPLOY_VERSION } from '../../Constants'
+import { DefPackDeserializeOptions } from './DefPackDeserializeOptions'
 import { DefPackRepositoryOptions } from './DefPackRepositoryOptions'
 
 export class DefPackRepository extends Repository {
@@ -8,16 +9,73 @@ export class DefPackRepository extends Repository {
    * @param id The id of the defpack to get.
    * @returns 
    */
-  public async decode(id: string, options?: DefPackRepositoryOptions): Promise<object> {
+  public async decode(id: string, { type = 'nameStrId', ...options }: DefPackRepositoryOptions): Promise<object> {
+    const name = `${id}.json`
+
+    const [defaultDefpack, defpack] = await Promise.all([
+      /**
+       * Request the default defpack items.
+       */
+      this.getDefaultDefpack(),
+
+      /**
+       * Request the defpack with the specified id.
+       */
+      this.client.request.send<object>(
+        `${API_URL}/${DEPLOY_VERSION}/defPacks`,
+        {
+          method: 'GET',
+          param: id,
+          rawDecompress: true
+        },
+      )
+    ])
+
+    const deserializedDefpack = this.deserialize({
+      type,
+      defaultDefpack,
+      defpack: defpack.data
+    })
+
+    if (options?.saveFile) {
+      const path = options?.saveFileDefpackPath ?? `./${name}`
+      await this.saveAssetFile(name, path, Buffer.from(JSON.stringify(deserializedDefpack, null, 2)))
+    }
+
+    return deserializedDefpack
+  }
+
+  /**
+   * Requests the default defpack items.
+   * @returns {Promise<object>}
+   */
+  private async getDefaultDefpack(): Promise<object> {
     const response = await this.client.request.send<object>(
       `${API_URL}/${DEPLOY_VERSION}/defPacks`,
       {
         method: 'GET',
-        param: id,
+        param: '10230',
         rawDecompress: true
       },
     )
 
-    return response
+    return response.data
+  }
+
+  /**
+   * Deserializes the defpack.
+   * @param defpack The defpack to deserialize.
+   * @returns {object}
+   * @param defpack 
+   */
+  private deserialize(options: DefPackDeserializeOptions): object {
+    for (const obj in options.defpack) {
+      console.log(options.type)
+
+      if (options.defpack[obj]?.hasOwnProperty(options.type)) 
+        options.defpack[obj].name = options.defaultDefpack[options.defpack[obj][options.type]];
+    }
+
+    return options.defpack
   }
 }

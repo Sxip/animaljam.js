@@ -1,5 +1,3 @@
-import { existsSync } from 'node:fs'
-import { mkdir, writeFile } from 'node:fs/promises'
 import { Repository } from '..'
 import { API_URL, DEPLOY_VERSION } from '../../Constants'
 import { AudioRepositoryOptions } from './AudioRepositoryOptions'
@@ -23,22 +21,9 @@ export class AudioRepository extends Repository {
 
     if (options?.saveFile) {
       const path = options?.saveFileAudioPath ?? `./${name}`
-      await this.saveAudioFile(name, path, response.data as Buffer)
+      await this.saveAssetFile(name, path, response.data)
     }
 
     return response.data
-  }
-
-  /**
-   * Saves an audio file
-   * @param path The path to save the file to.
-   * @param buffer The buffer of the audio file.
-   * 
-   */
-  private async saveAudioFile (name: string, path: string, buffer: Buffer): Promise<void> {
-    const pathToSave = `${path}/${name}`
-
-    if (!existsSync(path)) await mkdir(path, { recursive: true })
-    await writeFile(pathToSave, buffer)
   }
 }

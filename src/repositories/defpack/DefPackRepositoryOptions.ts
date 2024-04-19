@@ -12,5 +12,5 @@ export interface DefPackRepositoryOptions {
   /**
    * Defpack type.
    */
-  type: 'nameStrId' | 'titleStrRef' | 'streamTitleStrRef' | 'titleStrId'
+  type?: 'nameStrId' | 'titleStrRef' | 'streamTitleStrRef' | 'titleStrId'
 }

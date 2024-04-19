@@ -1,11 +1,11 @@
-import { AnimalJamClient } from '../src'
+import { AnimalJamClient } from '../src';
 
 (async () => {
   const client = new AnimalJamClient()
 
-  const defpack = await client.defpack.decode('1030', {
-    type: 'titleStrId',
+  await client.defpack.decode('1030', {
+    type: 'nameStrId',
+    saveFile: true,
+    saveFileDefpackPath: './test',
   })
-
-  console.log(defpack)
 })()
