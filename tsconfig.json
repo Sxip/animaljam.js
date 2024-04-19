@@ -1,8 +1,6 @@
 {
   "compilerOptions": {
-    "lib": [
-      "es7"
-    ],
+    "lib": ["es7"],
     "declaration": true,
     "esModuleInterop": false,
     "module": "CommonJS",

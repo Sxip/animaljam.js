@@ -19,9 +19,8 @@ export class AnimalJamClient {
    */
   public readonly room: RoomRepository = new RoomRepository(this)
 
-
   /**
-   * Room repository.
+   * Defpack repository.
    */
   public readonly defpack: DefPackRepository = new DefPackRepository(this)
 }

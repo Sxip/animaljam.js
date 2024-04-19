@@ -20,7 +20,7 @@ export class Request {
    * Constructor.
    * @param client The client that instantiated this request.
    */
-  public constructor(private readonly client: AnimalJamClient) { }
+  public constructor(public readonly client: AnimalJamClient) { }
 
   /**
    * Sends a request to the server.
@@ -35,7 +35,6 @@ export class Request {
       },
     })
 
-
     if (options.param) url = `${url}/${this.hash(options.param)}`
 
     const response = await fetch(url, options)
@@ -48,14 +47,14 @@ export class Request {
 
     switch (animalResponse.headers.get('Content-Type')) {
       case 'audio/mpeg':
-        animalResponse.data = Buffer.from(await response.arrayBuffer())
+        animalResponse.data = Buffer.from(await response.arrayBuffer()) as T
         break
       case 'binary/octet-stream':
         const buffer = Buffer.from(await response.arrayBuffer())
-        animalResponse.data = Object.values(await this.decompress(buffer, options.rawDecompress))
+        animalResponse.data = Object.values(await this.decompress(buffer, options.rawDecompress)) as T
         break
       default:
-        animalResponse.data = await response.text()
+        animalResponse.data = await response.text() as T
     }
 
     return animalResponse

@@ -1,6 +1,5 @@
 import { existsSync } from 'node:fs'
 import { mkdir, writeFile } from 'node:fs/promises'
-import { AnimalJamResponse } from 'src/request/AnimalJamResponse'
 import { Repository } from '..'
 import { API_URL, DEPLOY_VERSION } from '../../Constants'
 import { AudioRepositoryOptions } from './AudioRepositoryOptions'
@@ -11,10 +10,10 @@ export class AudioRepository extends Repository {
    * @param name The name of the audio file.
    * @returns {Promise<ArrayBuffer>}
    */
-  public async decode (name: string, options?: AudioRepositoryOptions): Promise<AnimalJamResponse> {
+  public async decode (name: string, options?: AudioRepositoryOptions): Promise<Buffer> {
     name = `${name}.mp3`
 
-    const response = await this.client.request.send(
+    const response = await this.client.request.send<Buffer>(
       `${API_URL}/${DEPLOY_VERSION}/audio`,
       {
         method: 'GET',
@@ -24,7 +23,7 @@ export class AudioRepository extends Repository {
 
     if (options?.saveFile) {
       const path = options?.saveFileAudioPath ?? `./${name}`
-      await this.saveAudioFile(name, path, response.data)
+      await this.saveAudioFile(name, path, response.data as Buffer)
     }
 
     return response.data

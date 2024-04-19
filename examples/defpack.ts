@@ -7,5 +7,5 @@ import { AnimalJamClient } from '../src/Client'
     type: 'titleStrId',
   })
 
-  console.log(defpack.data)
+  console.log(defpack)
 })()
