@@ -1,6 +1,6 @@
-export interface AnimalJamResponse {
+export interface AnimalJamResponse<Data> {
   status: number
   statusText: string
   headers: Response['headers']
-  data?: unknown
+  data?: Data 
 }

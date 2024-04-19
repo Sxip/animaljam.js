@@ -18,13 +18,13 @@ export class AudioRepository extends Repository {
       `${API_URL}/${DEPLOY_VERSION}/audio`,
       {
         method: 'GET',
-        hash: name,
+        param: name,
       },
     )
 
     if (options?.saveFile) {
       const path = options?.saveFileAudioPath ?? `./${name}`
-      await this.saveAudioFile(name, path, Buffer.from(response.data))
+      await this.saveAudioFile(name, path, response.data)
     }
 
     return response.data

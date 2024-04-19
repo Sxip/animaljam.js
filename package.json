@@ -1,5 +1,5 @@
 {
-  "dependencies": { "lodash": "^4.17.21" },
+  "dependencies": { "@astronautlabs/amf": "^0.0.6", "amfjs": "^1.3.1", "lodash": "^4.17.21", "node-amf3": "^1.0.1", "zlib": "^1.0.5" },
   "devDependencies": {
     "@types/node": "^20.12.7",
     "@typescript-eslint/eslint-plugin": "^7.7.0",
