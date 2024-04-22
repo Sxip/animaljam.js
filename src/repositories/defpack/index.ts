@@ -55,7 +55,8 @@ export class DefPackRepository extends Repository {
       {
         method: 'GET',
         param: '10230',
-        rawDecompress: true
+        rawDecompress: true,
+        objectMode: false
       },
     )
 

@@ -1,4 +1,5 @@
 export interface AnimalJamRequestOptions extends RequestInit {
   param?: string
-  rawDecompress?: boolean
+  rawDecompress?: boolean,
+  objectMode?: boolean
 }

@@ -43,7 +43,7 @@ export class Request {
         break
       case 'binary/octet-stream':
         const buffer = Buffer.from(await response.arrayBuffer())
-        animalResponse.data = Object.values(await this.decompress(buffer, options.rawDecompress)) as T
+        animalResponse.data = userOptions.objectMode ? Object.values(await this.decompress(buffer, options.rawDecompress)) as T : await this.decompress(buffer, options.rawDecompress) as T
         break
       default:
         animalResponse.data = await response.text() as T

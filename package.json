@@ -1,11 +1,10 @@
 {
   "name": "animaljam.js",
-  "version": "1.0.3",
+  "version": "1.0.6",
   "description": "Animal Jam API Client",
   "author": "Sxip",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
-  "type": "module",
   "files": [
     "dist"
   ],
