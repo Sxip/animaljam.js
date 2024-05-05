@@ -1,6 +1,6 @@
-import { existsSync } from 'fs';
-import { mkdir, writeFile } from 'node:fs/promises';
-import { AnimalJamClient } from '../Client';
+import { existsSync } from 'fs'
+import { mkdir, writeFile } from 'node:fs/promises'
+import { AnimalJamClient } from '../Client'
 
 export abstract class Repository {
   /**
@@ -15,7 +15,7 @@ export abstract class Repository {
    * @param options Options for the decoding.
    * @returns {Promise<any>}
    */
-  public abstract decode (name: string, options?: any): Promise<any>
+  public decode? (name: string, options?: any): Promise<any>
 
   /**
    * Saves an audio file.
@@ -23,7 +23,7 @@ export abstract class Repository {
    * @param buffer The buffer of the audio file.
    * @returns {Promise<void>}
    */
-  public async saveAssetFile (name: string, path: string, buffer: Buffer): Promise<void> {
+  protected async saveAssetFile (name: string, path: string, buffer: Buffer): Promise<void> {
     const pathToSave = `${path}/${name}`
 
     if (!existsSync(path)) await mkdir(path, { recursive: true })

@@ -1,3 +1,4 @@
+import AsarRepository from './repositories/asar'
 import { AudioRepository } from './repositories/audio'
 import { DefPackRepository } from './repositories/defpack'
 import { RoomRepository } from './repositories/room'
@@ -23,4 +24,9 @@ export class AnimalJamClient {
    * Defpack repository.
    */
   public readonly defpack: DefPackRepository = new DefPackRepository(this)
+
+  /**
+   * Asar repository.
+   */
+  public readonly asar: AsarRepository = new AsarRepository(this)
 }
