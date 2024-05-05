@@ -26,7 +26,7 @@ export default class AsarRepository extends Repository {
    * @param options Options for the unpacking.
    * @returns {Promise<void>}
    */
-  public async unpack(options?: AsarUnpackOptions): Promise<void> {
+  public async unpack (options?: AsarUnpackOptions): Promise<void> {
     return new Promise<void>((resolve, reject) => {
       try {
         resolve(extractAll(this.getBaseAsarPath, options?.saveFileAsarPath ?? `./asar`))

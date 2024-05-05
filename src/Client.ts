@@ -1,6 +1,7 @@
 import AsarRepository from './repositories/asar'
 import { AudioRepository } from './repositories/audio'
 import { DefPackRepository } from './repositories/defpack'
+import { FlashvarsRepository } from './repositories/flashvars'
 import { RoomRepository } from './repositories/room'
 import { Request } from './request'
 
@@ -29,4 +30,9 @@ export class AnimalJamClient {
    * Asar repository.
    */
   public readonly asar: AsarRepository = new AsarRepository(this)
+
+  /**
+   * Flashvars repository.
+   */
+  public readonly flashvars: FlashvarsRepository = new FlashvarsRepository(this)
 }

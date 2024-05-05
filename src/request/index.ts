@@ -7,7 +7,7 @@ import { HASH_KEY } from '../Constants'
 import { AnimalJamRequestOptions } from './AnimalJamRequestOptions'
 import { AnimalJamResponse } from './AnimalJamResponse'
 
-export class Request {
+export class Request {  
   /**
    * Default headers for all requests.
    */
@@ -21,14 +21,16 @@ export class Request {
    * @param userOptions Default options for the request.
    * @returns Promise<AnimalJamResponse<T>>
    */
-  public async send<T = any>(url: string, userOptions: AnimalJamRequestOptions): Promise<AnimalJamResponse<T>> {
+  public async send<T = any>(url: string, { includeHost = true, ...userOptions }: AnimalJamRequestOptions): Promise<AnimalJamResponse<T>> {
     const options = defaultsDeep(userOptions, {
       headers: {
         ...this.deaultHeaders,
       },
     })
 
+    if (!options.includeHost) delete options.headers['Host']
     if (options.param) url = `${url}/${this.hash(options.param)}`
+    
     const response = await fetch(url, options)
 
     const animalResponse: AnimalJamResponse<T> = {
@@ -44,6 +46,9 @@ export class Request {
       case 'binary/octet-stream':
         const buffer = Buffer.from(await response.arrayBuffer())
         animalResponse.data = userOptions.objectMode ? Object.values(await this.decompress(buffer, options.rawDecompress)) as T : await this.decompress(buffer, options.rawDecompress) as T
+        break
+      case 'application/json; charset=utf-8':
+        animalResponse.data = await response.json() as T
         break
       default:
         animalResponse.data = await response.text() as T
