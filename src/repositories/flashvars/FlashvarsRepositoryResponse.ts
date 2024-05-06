@@ -1,4 +1,4 @@
-interface FlashvarsRepositoryResponse {
+export interface FlashvarsRepositoryResponse {
   content: string;
   blueboxPort: string;
   smartfoxPort: string;

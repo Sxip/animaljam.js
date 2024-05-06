@@ -1,5 +1,6 @@
 import { Repository } from '..';
 import { ANIMAL_JAM_BASE_URL } from '../../Constants';
+import { FlashvarsRepositoryResponse } from './FlashvarsRepositoryResponse';
 
 export class FlashvarsRepository extends Repository {
   /**
