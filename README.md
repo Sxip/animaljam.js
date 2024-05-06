@@ -35,14 +35,15 @@ You can find all usage examples [here](examples).
 Here is how to decode a defpack.
 
 ```typescript
-import { AnimalJamClient } from 'animaljam.js'
+import { AnimalJamClient } from 'animaljam.js';
 
 (async () => {
-  const client = new AnimalJamClient();
+  const client = new AnimalJamClient()
 
   const defpack = await client.defpack.decode('1030', {
     type: 'titleStrId', // Defpack type
   })
 
   console.log(defpack) // Decoded defpack object
-})
+})()
+```
