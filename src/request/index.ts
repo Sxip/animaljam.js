@@ -16,6 +16,11 @@ export class Request {
   }
 
   /**
+   * Deploy version for the requests.
+   */
+  private deployVersion: string
+
+  /**
    * Sends a request to the server.
    * @param url The url to request.
    * @param userOptions Default options for the request.
@@ -29,7 +34,11 @@ export class Request {
     })
 
     if (!options.includeHost) delete options.headers['Host']
-    if (options.param) url = `${url}/${this.hash(options.param)}`
+
+    /**
+     * More than likely the deploy version will be included in the url.
+     */
+    if (options.param) url = `${url.replace(/\[deploy_version\]/g, this.deployVersion)}/${this.hash(options.param)}`
     
     const response = await fetch(url, options)
 
@@ -53,8 +62,17 @@ export class Request {
       default:
         animalResponse.data = await response.text() as T
     }
-
+    
     return animalResponse
+  }
+
+  /**
+   * Sets the deploy version.
+   * @param deployVersion The deploy version to set.
+   * @returns {void}
+   */
+  public setDeployVersion (deployVersion: string): void {
+    this.deployVersion = deployVersion
   }
 
   /**

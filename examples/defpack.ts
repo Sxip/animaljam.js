@@ -1,7 +1,9 @@
 import { AnimalJamClient } from '../src';
 
 (async () => {
-  const client = new AnimalJamClient()
+  const client = new AnimalJamClient({
+    deployVersion: '1000'
+  })
 
   await client.defpack.decode('1000', {
     type: 'titleStrId',

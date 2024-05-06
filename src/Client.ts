@@ -1,3 +1,4 @@
+import { AnimalJamClientOptions } from './AnimalJamClientOptions'
 import AsarRepository from './repositories/asar'
 import { AudioRepository } from './repositories/audio'
 import { DefPackRepository } from './repositories/defpack'
@@ -35,4 +36,12 @@ export class AnimalJamClient {
    * Flashvars repository.
    */
   public readonly flashvars: FlashvarsRepository = new FlashvarsRepository(this)
+
+  /**
+   * Constructor.
+   * @param options Options for the client.
+   */
+  public constructor ({ deployVersion = '1678' }: AnimalJamClientOptions = {}) {
+    this.request.setDeployVersion(deployVersion)
+  }
 }

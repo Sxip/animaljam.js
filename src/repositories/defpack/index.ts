@@ -1,5 +1,5 @@
 import { Repository } from '..'
-import { API_URL, DEPLOY_VERSION } from '../../Constants'
+import { API_URL } from '../../Constants'
 import { DefPackDeserializeOptions } from './DefPackDeserializeOptions'
 import { DefPackRepositoryOptions } from './DefPackRepositoryOptions'
 
@@ -22,7 +22,7 @@ export class DefPackRepository extends Repository {
        * Request the defpack with the specified id.
        */
       this.client.request.send<object>(
-        `${API_URL}/${DEPLOY_VERSION}/defPacks`,
+        `${API_URL}/[deploy_version]/defPacks`,
         {
           method: 'GET',
           param: id,
@@ -51,7 +51,7 @@ export class DefPackRepository extends Repository {
    */
   private async getDefaultDefpack(): Promise<object> {
     const response = await this.client.request.send<object>(
-      `${API_URL}/${DEPLOY_VERSION}/defPacks`,
+      `${API_URL}/[deploy_version]/defPacks`,
       {
         method: 'GET',
         param: '10230',

@@ -1,5 +1,5 @@
 import { Repository } from '..'
-import { API_URL, DEPLOY_VERSION } from '../../Constants'
+import { API_URL } from '../../Constants'
 import { AudioRepositoryOptions } from './AudioRepositoryOptions'
 
 export class AudioRepository extends Repository {
@@ -12,7 +12,7 @@ export class AudioRepository extends Repository {
     name = `${name}.mp3`
 
     const response = await this.client.request.send<Buffer>(
-      `${API_URL}/${DEPLOY_VERSION}/audio`,
+      `${API_URL}/[deploy_version]/audio`,
       {
         method: 'GET',
         param: name,

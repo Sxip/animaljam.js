@@ -1,5 +1,5 @@
 import { Repository } from '..'
-import { API_URL, DEPLOY_VERSION } from '../../Constants'
+import { API_URL } from '../../Constants'
 import { RoomRepositoryOptions } from './RoomRepositoryOptions'
 import { RoomRepositoryResponse } from './RoomRepositoryResponse'
 
@@ -13,7 +13,7 @@ export class RoomRepository extends Repository {
     const file = `${options.file}.xroom`
 
     const response = await this.client.request.send<RoomRepositoryResponse>(
-      `${API_URL}/${DEPLOY_VERSION}/roomDefs/${map}`,
+      `${API_URL}/[deploy_version]/roomDefs/${map}`,
       {
         method: 'GET',
         param: file,
