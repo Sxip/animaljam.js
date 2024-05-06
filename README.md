@@ -12,6 +12,7 @@ This is a TypeScript client for the `private` Animal Jam Classic API. This clien
 - Decoding audio files.
 - Decoding rooms.
 - Unpacking asar files.
+- Packing asar files.
 - Fetching flashvars.
 
 # Table of Contents

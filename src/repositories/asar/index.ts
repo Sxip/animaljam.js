@@ -38,21 +38,6 @@ export default class AsarRepository extends Repository {
   }
 
   /**
-   * Extracts a file from the asar.
-   * @param name Name of the file to extract.
-   * @returns {Promise<Buffer>}
-   */
-  public async getFile (name: string): Promise<Buffer> {
-    return new Promise<Buffer>((resolve, reject) => {
-      try {
-        resolve(extractFile(this.getBaseAsarPath, name))
-      } catch (error) {
-        reject(error)
-      }
-    })
-  }
-
-  /**
    * Creates a new asar file.
    * @param options Options for the packing.
    * @returns {Promise<void>}
@@ -65,6 +50,21 @@ export default class AsarRepository extends Repository {
           options.saveFileAsarPath, 
           { }
         ))
+      } catch (error) {
+        reject(error)
+      }
+    })
+  }
+
+  /**
+   * Extracts a file from the asar.
+   * @param name Name of the file to extract.
+   * @returns {Promise<Buffer>}
+   */
+  public async getFile (name: string): Promise<Buffer> {
+    return new Promise<Buffer>((resolve, reject) => {
+      try {
+        resolve(extractFile(this.getBaseAsarPath, name))
       } catch (error) {
         reject(error)
       }
