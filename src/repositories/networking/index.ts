@@ -1,6 +1,8 @@
+import { readdir } from 'fs/promises'
 import { NetifyClient, NullProtocol } from 'netify.js'
+import path from 'path'
 import { NetworkingRepositoryOptions } from './NetworkingRepositoryOptions'
-import { PacketHandler } from './packets'
+import { PacketHandler } from './PacketHandler'
 
 export class NetworkingRepository extends NetifyClient<NullProtocol> {
   private readonly packetHandler: PacketHandler = new PacketHandler(this)
@@ -25,7 +27,7 @@ export class NetworkingRepository extends NetifyClient<NullProtocol> {
   public static async createClient (options: NetworkingRepositoryOptions): Promise<NetworkingRepository> {
     options.host = `lb-${options.host.replace(/\.(stage|prod)\.animaljam\.internal$/, '-$1.animaljam.com')}`
 
-    return new NetworkingRepository({
+    const networking = new NetworkingRepository({
       host: options.host,
       port: options.port,
 
@@ -33,15 +35,22 @@ export class NetworkingRepository extends NetifyClient<NullProtocol> {
       screenName: options.screenName,
     })
     .useProtocol(NullProtocol)
-    .usePacketHandler()
+
+    await networking.usePacketHandlers()
+    return networking
   }
 
   /**
    * Connects to the server.
    * @returns {Promise<void>}
    */
-  public usePacketHandler (): this  {
-    return this
+  public async usePacketHandlers (): Promise<void> {
+    const handlers = await readdir(path.join(__dirname, './handlers'), { 
+      recursive: true 
+    })
+
+    for (const handler of handlers.filter(handler => /\.(ts|js)$/i.test(handler))) 
+      import(`./handlers/${handler}`)
   }
 
   /**
@@ -62,7 +71,14 @@ export class NetworkingRepository extends NetifyClient<NullProtocol> {
   private onReceivedMessage (buffer: Buffer): void {
     const message = buffer.toString()
 
-    this.packetHandler.handleMessageReceived(message)
+    if (message.includes('cross-domain'))  this.sendRawMessage(`<msg t='sys'><body action='rndK' r='-1'></body></msg>`)
+
+    const validMessage = this.packetHandler.validate(message)
+    if (validMessage) {
+      validMessage.parse()
+
+      this.packetHandler.handle(validMessage)
+    }
   }
 
   /**
