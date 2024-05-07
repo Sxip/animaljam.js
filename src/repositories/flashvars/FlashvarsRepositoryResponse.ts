@@ -1,7 +1,7 @@
 export interface FlashvarsRepositoryResponse {
   content: string;
   blueboxPort: string;
-  smartfoxPort: string;
+  smartfoxPort: number;
   website: string;
   build_version: string;
   mdUrl: string;

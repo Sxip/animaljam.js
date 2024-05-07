@@ -1,5 +1,6 @@
 export const API_URL = 'https://ajcontent.akamaized.net'
 export const ANIMAL_JAM_BASE_URL = 'https://animaljam.com'
+export const ANIMAL_JAM_AUTHENTICATOR = 'https://authenticator.animaljam.com'
 
 /**
  * Hash key for the requests.

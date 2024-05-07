@@ -8,6 +8,7 @@
     "noImplicitAny": false,
     "removeComments": true,
     "noLib": false,
+    "experimentalDecorators": true,
     "allowSyntheticDefaultImports": true,
     "target": "ES2017",
     "sourceMap": true,

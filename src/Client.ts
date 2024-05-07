@@ -1,8 +1,10 @@
 import { AnimalJamClientOptions } from './AnimalJamClientOptions'
 import AsarRepository from './repositories/asar'
 import { AudioRepository } from './repositories/audio'
+import { AuthenticatorRepository } from './repositories/authenticator/AuthenticatorRepository'
 import { DefPackRepository } from './repositories/defpack'
 import { FlashvarsRepository } from './repositories/flashvars'
+import { NetworkingRepository } from './repositories/networking'
 import { RoomRepository } from './repositories/room'
 import { Request } from './request'
 
@@ -36,6 +38,16 @@ export class AnimalJamClient {
    * Flashvars repository.
    */
   public readonly flashvars: FlashvarsRepository = new FlashvarsRepository(this)
+
+  /**
+   * Authenticator repository.
+   */
+  public readonly authenticator: AuthenticatorRepository = new AuthenticatorRepository(this)
+  
+  /**
+   * Networking repository.
+   */
+  public readonly networking = NetworkingRepository 
 
   /**
    * Constructor.
