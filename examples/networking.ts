@@ -1,7 +1,7 @@
 import { AnimalJamClient } from '../src'
 
 (async () => {
-  const screen_name = 'niggeur'
+  const screen_name = 'username'
 
   const client = new AnimalJamClient()
 
@@ -15,8 +15,9 @@ import { AnimalJamClient } from '../src'
    */
   const { auth_token } = await client.authenticator.login({
     screenName: screen_name,
-    password: 'abd123',
+    password: 'password',
   })
+
 
   /**
    * Networking handles most of the communication with the server.
