@@ -4,4 +4,5 @@ export interface NetworkingRepositoryOptions {
 
   authToken: string
   screenName: string
+  deployVersion: string
 }

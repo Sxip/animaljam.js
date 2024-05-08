@@ -12,7 +12,7 @@ export class NetworkingRepository extends NetifyClient<NullProtocol> {
    * @param options Options for the networking repository.
    * @constructor
    */
-  public constructor (options: NetworkingRepositoryOptions) {
+  public constructor (public readonly options: NetworkingRepositoryOptions) {
     super({
       host: options.host,
       port: options.port,
@@ -33,6 +33,7 @@ export class NetworkingRepository extends NetifyClient<NullProtocol> {
 
       authToken: options.authToken,
       screenName: options.screenName,
+      deployVersion: options.deployVersion,
     })
     .useProtocol(NullProtocol)
 
@@ -59,9 +60,13 @@ export class NetworkingRepository extends NetifyClient<NullProtocol> {
    */
   public async createConnection (): Promise<void> {
     await this.connect()
-
+    
     this.on('received', this.onReceivedMessage.bind(this))
     this.on('close', this.onClose.bind(this))
+    this.on('error', console.log)
+
+    // Send rndK packet to get the server's auth token
+    this.sendRawMessage(`<msg t='sys'><body action='rndK' r='-1'></body></msg>`)
   }
 
   /**
@@ -70,8 +75,7 @@ export class NetworkingRepository extends NetifyClient<NullProtocol> {
    */
   private onReceivedMessage (buffer: Buffer): void {
     const message = buffer.toString()
-
-    if (message.includes('cross-domain'))  this.sendRawMessage(`<msg t='sys'><body action='rndK' r='-1'></body></msg>`)
+    console.log('Received message', message)
 
     const validMessage = this.packetHandler.validate(message)
     if (validMessage) {
@@ -89,15 +93,16 @@ export class NetworkingRepository extends NetifyClient<NullProtocol> {
   public async sendRawMessage (message: string): Promise<void> {
     this.write(message)
     this.write('\x00')
+
     await this.flush()
   }
-  
 
   /**
    * Handles the close event.
    * @returns {void}
    */
   private onClose (): void {
+    console.log('Connection closed')
     
   }
 }

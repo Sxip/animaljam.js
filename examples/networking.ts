@@ -1,7 +1,7 @@
 import { AnimalJamClient } from '../src'
 
 (async () => {
-  const screen_name = 'username'
+  const screen_name = 'niggeur'
 
   const client = new AnimalJamClient()
 
@@ -15,7 +15,7 @@ import { AnimalJamClient } from '../src'
    */
   const { auth_token } = await client.authenticator.login({
     screenName: screen_name,
-    password: 'password',
+    password: 'abd123',
   })
 
   /**
@@ -27,6 +27,7 @@ import { AnimalJamClient } from '../src'
 
     authToken: auth_token,
     screenName: screen_name,
+    deployVersion: flashvars.deploy_version,
   })
 
 

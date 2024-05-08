@@ -6,10 +6,13 @@ export const handlers  = [];
  * Indicates that the decorated method should be called when it's packet type is received by a client.
  */
 export function MessageHandle (options: PacketHandleOptions): MethodDecorator {
-  return (target, key) => {
+  return (target: any, key: string, descriptor: PropertyDescriptor) => {
+    const originalValue = descriptor.value;
+
+
     handlers.push({
       message: options.message,
-      handler: target[key].bind(target)
+      handler: target[key].bind(new target.constructor())
     })
   }
 }

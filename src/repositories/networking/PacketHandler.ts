@@ -30,7 +30,7 @@ export class PacketHandler {
 
     for (const handler of handlers) {
       if (handler.message === type) {
-        handler.handler(message, this.networking)
+        handler.handler(validMessage, this.networking)
       }
     }
   }
