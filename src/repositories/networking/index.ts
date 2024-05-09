@@ -1,6 +1,6 @@
 import { readdir } from 'fs/promises';
 import { NetifyClient, NullProtocol } from 'netify.js';
-import path from 'path';
+import * as path from 'node:path';
 import { NetworkingRepositoryOptions } from './NetworkingRepositoryOptions';
 import { PacketHandler } from './PacketHandler';
 import { JSONMessage } from './messages/JSONMessage';
@@ -61,11 +61,11 @@ export class NetworkingRepository extends NetifyClient<NullProtocol>  {
    * @returns {Promise<void>}
    */
   public async usePacketHandlers(): Promise<void> {
-    const handlers = await readdir(path.join(__dirname, './incoming'), {
+    const handlers = await readdir(path.resolve(__dirname, './incoming'), {
       recursive: true
     });
 
-    for (const handler of handlers.filter(handler => /\.(ts|js)$/i.test(handler)))
+    for (const handler of handlers.filter(handler => /\.(js|.ts)$/i.test(handler)))
       import(`./incoming/${handler}`);
   }
 
