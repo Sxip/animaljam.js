@@ -2,7 +2,7 @@ export interface NetworkingRepositoryOptions {
   host: string
   port: number
 
-  authToken: string
-  screenName: string
-  deployVersion: string
+  auth_token: string
+  screen_name: string
+  deploy_version: string
 }

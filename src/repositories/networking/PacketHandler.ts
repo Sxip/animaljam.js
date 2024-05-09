@@ -1,6 +1,8 @@
-import { NetworkingRepository } from '.'
+import { NetworkingRepository } from '../networking'
 import { handlers } from './decorators/PacketHandler'
+import { JSONMessage } from './messages/JSONMessage'
 import { XMLMessage } from './messages/XMLMessage'
+import { XTMessage } from './messages/XTMessage'
 
 export class PacketHandler {
   public constructor (private readonly networking: NetworkingRepository) {}
@@ -10,7 +12,7 @@ export class PacketHandler {
    * @param message The received message string.
    * @returns {void}
    */
-  public validate (message: string): XMLMessage {
+  public validate (message: string): XMLMessage | JSONMessage | XTMessage {
     const type = message.charAt(0)
 
     switch (type) {
@@ -18,20 +20,18 @@ export class PacketHandler {
         return new XMLMessage(message)
 
       case '{':
-        break
+        return new JSONMessage(message)
 
       case '%':
-        break
+        return new XTMessage(message)
     }
   }
 
-  public handle (validMessage: XMLMessage): void {
-    const { type, message } = validMessage
+  public handle<T> (validMessage: XMLMessage | JSONMessage | XTMessage): void {
+    const { type } = validMessage
 
     for (const handler of handlers) {
-      if (handler.message === type) {
-        handler.handler(validMessage, this.networking)
-      }
+      if (handler.message === type) handler.handler(validMessage, this.networking)
     }
   }
 }

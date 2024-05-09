@@ -1,7 +1,7 @@
 import { AnimalJamClientOptions } from './AnimalJamClientOptions'
 import AsarRepository from './repositories/asar'
 import { AudioRepository } from './repositories/audio'
-import { AuthenticatorRepository } from './repositories/authenticator/AuthenticatorRepository'
+import { AuthenticatorRepository } from './repositories/authenticator'
 import { DefPackRepository } from './repositories/defpack'
 import { FlashvarsRepository } from './repositories/flashvars'
 import { NetworkingRepository } from './repositories/networking'

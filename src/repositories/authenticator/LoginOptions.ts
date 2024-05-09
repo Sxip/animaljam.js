@@ -2,7 +2,7 @@ export interface LoginOptions {
   /**
    * The screen name to use.
    */
-  screenName: string
+  screen_name: string
 
   /**
    * The password to use.

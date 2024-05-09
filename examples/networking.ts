@@ -14,7 +14,7 @@ import { AnimalJamClient } from '../src'
    * Authenticate the client.
    */
   const { auth_token } = await client.authenticator.login({
-    screenName: screen_name,
+    screen_name: screen_name,
     password: 'password',
   })
 
@@ -26,12 +26,14 @@ import { AnimalJamClient } from '../src'
     host: flashvars.smartfoxServer,
     port: flashvars.smartfoxPort,
 
-    authToken: auth_token,
-    screenName: screen_name,
-    deployVersion: flashvars.deploy_version,
+    auth_token: auth_token,
+    screen_name: screen_name,
+    deploy_version: flashvars.deploy_version,
   })
 
 
   await networking.createConnection()
   console.log('Connected to server!')
+  
+  networking.on('message', (message) => console.log('Received message', message.message))
 })()

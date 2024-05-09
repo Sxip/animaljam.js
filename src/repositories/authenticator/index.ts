@@ -15,7 +15,7 @@ export class AuthenticatorRepository extends Repository {
       {
         method: 'POST',
         body: JSON.stringify({
-          username: options.screenName,
+          username: options.screen_name,
           password: options.password,
           domain: 'flash'
         }),
