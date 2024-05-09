@@ -14,6 +14,7 @@ This is a TypeScript client for the `private` Animal Jam Classic API. This clien
 - Unpacking asar files.
 - Packing asar files.
 - Fetching flashvars.
+- Networking client (handles most of the communication with the server).
 
 # Table of Contents
 
