@@ -1,7 +1,7 @@
 import { AnimalJamClient } from '../src'
 
 (async () => {
-  const screen_name = 'niggeur'
+  const screen_name = 'screen_name'
 
   const client = new AnimalJamClient()
 
@@ -15,7 +15,7 @@ import { AnimalJamClient } from '../src'
    */
   const { auth_token } = await client.authenticator.login({
     screen_name: screen_name,
-    password: 'abd123',
+    password: 'password',
   })
 
 
