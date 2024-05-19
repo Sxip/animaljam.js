@@ -6,6 +6,7 @@ import { PacketHandler } from './PacketHandler';
 import { JSONMessage } from './messages/JSONMessage';
 import { XMLMessage } from './messages/XMLMessage';
 import { XTMessage } from './messages/XTMessage';
+import { RndKMessage } from './outgoing/rndK';
 
 export class NetworkingRepository extends NetifyClient<NullProtocol>  {
   private readonly packetHandler: PacketHandler = new PacketHandler(this)
@@ -40,7 +41,7 @@ export class NetworkingRepository extends NetifyClient<NullProtocol>  {
    * @returns {Promise<NetifyClient<NullProtocol>>}
    */
   public static async createClient(options: NetworkingRepositoryOptions): Promise<NetworkingRepository> {
-    options.host = `lb-${options.host.replace(/\.(stage|prod)\.animaljam\.internal$/, '-$1.animaljam.com')}`;
+    options.host = `lb-${options.host.replace(/\.(stage|prod)\.animaljam\.internal$/, '-$1.animaljam.com')}`
 
     const networking = new NetworkingRepository({
       host: options.host,
@@ -50,10 +51,10 @@ export class NetworkingRepository extends NetifyClient<NullProtocol>  {
       screen_name: options.screen_name,
       deploy_version: options.deploy_version,
     })
-      .useProtocol(NullProtocol);
+      .useProtocol(NullProtocol)
 
-    await networking.usePacketHandlers();
-    return networking;
+    await networking.usePacketHandlers()
+    return networking
   }
 
   /**
@@ -63,10 +64,10 @@ export class NetworkingRepository extends NetifyClient<NullProtocol>  {
   public async usePacketHandlers(): Promise<void> {
     const handlers = await readdir(path.resolve(__dirname, './incoming'), {
       recursive: true
-    });
+    })
 
-    for (const handler of handlers.filter(handler => /\.(js|.ts)$/i.test(handler)))
-      import(`./incoming/${handler}`);
+    for (const handler of handlers.filter(handler => /\.(ts|js)$/i.test(handler)))
+      import(`./incoming/${handler}`)
   }
 
   /**
@@ -74,12 +75,12 @@ export class NetworkingRepository extends NetifyClient<NullProtocol>  {
    * @returns {Promise<void>}
    */
   public async createConnection(): Promise<void> {
-    await this.connect();
+    await this.connect()
 
-    this.on('received', this.onReceivedMessage.bind(this));
+    this.on('received', this.onReceivedMessage.bind(this))
 
     // Send rndK packet to get the server's auth token
-    this.sendRawMessage(`<msg t='sys'><body action='rndK' r='-1'></body></msg>`);
+    this.sendRawMessage(RndKMessage.build())
   }
 
   /**

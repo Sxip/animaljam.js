@@ -25,7 +25,7 @@
     "cheerio": "^1.0.0-rc.12",
     "lodash": "^4.17.21",
     "netify.js": "github:sxip/netify.js#tls",
-    "xmlbuilder": "^15.1.1"
+    "xmlbuilder2": "^3.1.1"
   },
   "devDependencies": {
     "@types/node": "^20.12.7",

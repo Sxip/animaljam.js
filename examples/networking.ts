@@ -1,7 +1,7 @@
 import { AnimalJamClient } from '../src'
 
 (async () => {
-  const screen_name = 'username'
+  const screen_name = 'niggeur'
 
   const client = new AnimalJamClient()
 
@@ -15,7 +15,7 @@ import { AnimalJamClient } from '../src'
    */
   const { auth_token } = await client.authenticator.login({
     screen_name: screen_name,
-    password: 'password',
+    password: 'abd123',
   })
 
 
@@ -35,5 +35,11 @@ import { AnimalJamClient } from '../src'
   await networking.createConnection()
   console.log('Connected to server!')
   
-  networking.on('message', (message) => console.log('Received message', message.message))
+  networking.on('message', (message) => {
+    console.log('Received message', message.toMessage())
+  })
+  
+  networking.on('close', () => {
+    console.log('Connection closed')
+  })
 })()
