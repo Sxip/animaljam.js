@@ -52,7 +52,7 @@ import { AnimalJamClient } from 'animaljam.js';
 Here is how to make a simple networking client.
 
 ```typescript
-import { AnimalJamClient } from '../src'
+import { AnimalJamClient } from 'animaljam.js'
 
 (async () => {
   const screen_name = 'screen_name'
