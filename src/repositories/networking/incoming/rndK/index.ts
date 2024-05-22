@@ -1,4 +1,4 @@
-import { NetworkingRepository } from '../../../networking'
+import { NetworkingRepository } from '../..'
 import { IncomingMessageHandler } from '../../decorators/PacketHandler'
 import { XMLMessage } from '../../messages/XMLMessage'
 import { LoginMessage } from '../../outgoing/login'

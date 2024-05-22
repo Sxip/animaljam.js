@@ -1,6 +1,5 @@
 import { NetworkingRepository } from '../..'
 import { IncomingMessageHandler } from '../../decorators/PacketHandler'
-import { JSONMessage } from '../../messages/JSONMessage'
 import { WorldMessage } from '../../outgoing/world'
 
 export class LoginMessage {

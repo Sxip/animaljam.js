@@ -68,7 +68,7 @@ export class NetworkingRepository extends NetifyClient<NullProtocol>  {
       recursive: true
     })
 
-    for (const handler of handlers.filter(handler => /\.(ts|js)$/i.test(handler)))
+    for (const handler of handlers.filter(handler => /index\.(ts|js)$/i.test(handler)))
       import(`./incoming/${handler}`)
   }
 

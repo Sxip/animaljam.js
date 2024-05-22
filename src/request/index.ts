@@ -33,13 +33,14 @@ export class Request {
       },
     })
 
-    if (!options.includeHost) delete options.headers['Host']
+    if (!includeHost) delete options.headers['Host']
 
     /**
      * More than likely the deploy version will be included in the url.
      */
     if (options.param) url = `${url.replace(/\[deploy_version\]/g, this.deployVersion)}/${this.hash(options.param)}`
     
+    console.log(url, options)
     const response = await fetch(url, options)
 
     const animalResponse: AnimalJamResponse<T> = {
