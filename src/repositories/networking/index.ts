@@ -1,12 +1,12 @@
-import { readdir } from 'fs/promises';
-import { NetifyClient, NullProtocol } from 'netify.js';
-import * as path from 'node:path';
-import { NetworkingRepositoryOptions } from './NetworkingRepositoryOptions';
-import { PacketHandler } from './PacketHandler';
-import { JSONMessage } from './messages/JSONMessage';
-import { XMLMessage } from './messages/XMLMessage';
-import { XTMessage } from './messages/XTMessage';
-import { RndKMessage } from './outgoing/rndK';
+import { readdir } from 'fs/promises'
+import { NetifyClient, NullProtocol } from 'netify.js'
+import * as path from 'node:path'
+import { NetworkingRepositoryOptions } from './NetworkingRepositoryOptions'
+import { PacketHandler } from './PacketHandler'
+import { JSONMessage } from './messages/JSONMessage'
+import { XMLMessage } from './messages/XMLMessage'
+import { XTMessage } from './messages/XTMessage'
+import { RndKMessage } from './outgoing/rndK'
 
 export class NetworkingRepository extends NetifyClient<NullProtocol>  {
   private readonly packetHandler: PacketHandler = new PacketHandler(this)
@@ -14,13 +14,13 @@ export class NetworkingRepository extends NetifyClient<NullProtocol>  {
   /**
    * Event handlers.
    */
-  public on (event: 'message', listener: (message: XMLMessage | JSONMessage | XTMessage) => void): this;
-  public on (event: 'received', listener: (message: any) => any): this;
-  public on (event: 'error', listener: (error: Error) => any): this;
-  public on (event: 'close', listener: () => any): this;
+  public on (event: 'message', listener: (message: XMLMessage | JSONMessage | XTMessage) => void): this
+  public on (event: 'received', listener: (message: any) => any): this
+  public on (event: 'error', listener: (error: Error) => any): this
+  public on (event: 'close', listener: () => any): this
   public on (event: any, listener: (...args: any[]) => void): this {
     super.on(event, listener);
-    return this;
+    return this
   }
 
   /**
@@ -28,7 +28,9 @@ export class NetworkingRepository extends NetifyClient<NullProtocol>  {
    * @param options Options for the networking repository.
    * @constructor
    */
-  public constructor(public readonly options: NetworkingRepositoryOptions) {
+  public constructor(
+    public readonly options: NetworkingRepositoryOptions
+  ) {
     super({
       host: options.host,
       port: options.port,
@@ -88,14 +90,14 @@ export class NetworkingRepository extends NetifyClient<NullProtocol>  {
    * @param buffer The received message buffer.
    */
   private onReceivedMessage(buffer: Buffer): void {
-    const message = buffer.toString();
+    const message = buffer.toString()
 
-    const validMessage = this.packetHandler.validate(message);
+    const validMessage = this.packetHandler.validate(message)
     if (validMessage) {
-      validMessage.parse();
+      validMessage.parse()
 
-      this.packetHandler.handle(validMessage);
-      this.emit('message', validMessage);
+      this.packetHandler.handle(validMessage)
+      this.emit('message', validMessage)
     }
   }
 
@@ -105,9 +107,9 @@ export class NetworkingRepository extends NetifyClient<NullProtocol>  {
    * @returns {Promise<void>}
    */
   public async sendRawMessage(message: string): Promise<void> {
-    this.write(message);
-    this.write('\x00');
+    this.write(message)
+    this.write('\x00')
 
-    await this.flush();
+    await this.flush()
   }
 }

@@ -36,7 +36,7 @@ import { AnimalJamClient } from '../src'
   console.log('Connected to server!')
   
   networking.on('message', (message) => {
-    console.log('Received message', message.toMessage())
+    console.log('Received message from server', message.toMessage())
   })
   
   networking.on('close', () => {

@@ -4,7 +4,6 @@ import { XMLMessage } from '../../messages/XMLMessage'
 import { LoginMessage } from '../../outgoing/login'
 
 export class RndKMessage {
-
   /**
    * Handles rndk packet.
    * @param param The packet to handle.

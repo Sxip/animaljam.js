@@ -1,5 +1,6 @@
 import { Message } from './Message'
 
+
 export class JSONMessage extends Message<any> {
   /**
    * Handles the parsing of the message.
