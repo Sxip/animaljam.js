@@ -29,7 +29,7 @@ export class Request {
   public async send<T = any>(url: string, { includeHost = true, ...userOptions }: AnimalJamRequestOptions): Promise<AnimalJamResponse<T>> {
     const options = defaultsDeep(userOptions, {
       headers: {
-        ...this.deaultHeaders,
+        ...this.deaultHeaders ?? userOptions.headers ?? {},
       },
     })
 
@@ -39,8 +39,6 @@ export class Request {
      * More than likely the deploy version will be included in the url.
      */
     if (options.param) url = `${url.replace(/\[deploy_version\]/g, this.deployVersion)}/${this.hash(options.param)}`
-    
-    console.log(url, options)
     const response = await fetch(url, options)
 
     const animalResponse: AnimalJamResponse<T> = {

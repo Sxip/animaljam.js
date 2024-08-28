@@ -8,4 +8,9 @@ export interface LoginOptions {
    * The password to use.
    */
   password: string
+
+  /**
+   * Domain
+   */
+  domain?: 'flash' | 'mobile'
 }

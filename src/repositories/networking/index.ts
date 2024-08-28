@@ -52,6 +52,8 @@ export class NetworkingRepository extends NetifyClient<NullProtocol>  {
       auth_token: options.auth_token,
       screen_name: options.screen_name,
       deploy_version: options.deploy_version,
+
+      domain: options.domain ?? 'flash'
     })
       .useProtocol(NullProtocol)
 
@@ -109,7 +111,6 @@ export class NetworkingRepository extends NetifyClient<NullProtocol>  {
   public async sendRawMessage(message: string): Promise<void> {
     this.write(message)
     this.write('\x00')
-
     await this.flush()
   }
 }

@@ -1,6 +1,5 @@
 import { NetworkingRepository } from '../..'
 import { IncomingMessageHandler } from '../../decorators/PacketHandler'
-import { WorldMessage } from '../../outgoing/world'
 
 export class LoginMessage {
   /**
@@ -12,6 +11,10 @@ export class LoginMessage {
     message: 'login',
   })
   public async handle (_: any, networking: NetworkingRepository): Promise<void> {
-    return networking.sendRawMessage(WorldMessage.build())
+    if (networking.options.domain === 'mobile') {
+      return networking.sendRawMessage(`%xt%o%rj%-1%Jamaa.World#-1%0%`)
+    } else {
+      return networking.sendRawMessage(`xt%o%rj%-1%jamaa_township.room_main#-1%1%0%0`)
+    }
   }
 }

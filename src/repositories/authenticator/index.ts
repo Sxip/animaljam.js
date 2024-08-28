@@ -14,10 +14,14 @@ export class AuthenticatorRepository extends Repository {
       `${ANIMAL_JAM_AUTHENTICATOR}/authenticate`,
       {
         method: 'POST',
+        includeHost: false,
+        headers: {
+          'host': 'authenticator.animaljam.com',
+        },
         body: JSON.stringify({
           username: options.screen_name,
           password: options.password,
-          domain: 'flash'
+          domain: options.domain ?? 'flash'
         }),
       },
     )

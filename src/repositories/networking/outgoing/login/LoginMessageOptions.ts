@@ -15,6 +15,11 @@ export interface LoginMessageOptions {
   deploy_version: string
 
   /**
+   * Is mobile
+   */
+  isMobile: boolean
+
+  /**
    * The hash to use.
    */
   hash: string

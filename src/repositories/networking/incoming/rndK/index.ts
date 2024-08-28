@@ -16,6 +16,7 @@ export class RndKMessage {
     const hash = message('msg').text()
 
     networking.sendRawMessage(LoginMessage.build({
+      isMobile: networking.options.domain === 'mobile',
       screen_name: networking.options.screen_name,
       auth_token: networking.options.auth_token,
       deploy_version: networking.options.deploy_version,
