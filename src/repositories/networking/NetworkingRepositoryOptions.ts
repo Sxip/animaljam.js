@@ -5,5 +5,5 @@ export interface NetworkingRepositoryOptions {
   auth_token: string
   screen_name: string
   deploy_version: string
-  domain: 'flash' | 'mobile'
+  domain?: 'flash' | 'mobile'
 }
