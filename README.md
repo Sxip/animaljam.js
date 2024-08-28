@@ -71,6 +71,7 @@ import { AnimalJamClient } from 'animaljam.js'
   const { auth_token } = await client.authenticator.login({
     screen_name: screen_name,
     password: password,
+    domain: 'flash', // Optional, defaults to flash if not specified
   })
 
 
@@ -84,6 +85,7 @@ import { AnimalJamClient } from 'animaljam.js'
     auth_token: auth_token,
     screen_name: screen_name,
     deploy_version: flashvars.deploy_version,
+    domain: 'flash', // Optional, defaults to flash if not specified
   })
 
 
