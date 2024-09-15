@@ -5,7 +5,7 @@ import { HttpProxyAgent } from 'http-proxy-agent'
 import pLimit from 'p-limit'
 import { createConnection } from 'node:net'
 
-import { handleSocketResponse } from '../../utils/proxy'
+import { createConnectRequest, handleSocketResponse } from '../../utils/proxy'
 
 export class ProxyRepository extends Repository {
   /**
@@ -80,7 +80,7 @@ export class ProxyRepository extends Repository {
      * Maybe we can use a different server?
      * I say we.. but, i'm talking to myself.
      */
-    const connectRequest = this.createConnectRequest(`lb-iss02-classic-prod.animaljam.com`, 443)
+    const connectRequest = createConnectRequest(`lb-iss02-classic-prod.animaljam.com`, 443)
 
     const proxySocket = createConnection({
       host: proxy.host,
