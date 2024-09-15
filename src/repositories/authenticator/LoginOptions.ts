@@ -1,4 +1,4 @@
-import { ProxyOptions } from '../../request/AnimalJamRequestOptions'
+import { Proxy } from '../../utils/proxy'
 
 export interface LoginOptions {
   /**
@@ -19,5 +19,5 @@ export interface LoginOptions {
   /**
    * Proxy
    */
-  proxy?: ProxyOptions
+  proxy?: Proxy
 }

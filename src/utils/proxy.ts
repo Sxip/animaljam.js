@@ -1,3 +1,8 @@
+export interface Proxy {
+  host: string
+  port: number
+}
+
 /**
  * Handles parsing the response from the proxy.
  * @param data The data to parse.
