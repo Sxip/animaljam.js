@@ -7,4 +7,10 @@ export interface AnimalJamRequestOptions extends RequestInit {
   headers?: RequestInit['headers']
   includeDeployVersion?: boolean
   includeHost?: boolean,
+  proxy?: ProxyOptions
+}
+
+export interface ProxyOptions {
+  host: string
+  port: number
 }

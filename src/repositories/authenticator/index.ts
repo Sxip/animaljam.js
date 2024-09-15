@@ -23,6 +23,7 @@ export class AuthenticatorRepository extends Repository {
           password: options.password,
           domain: options.domain ?? 'flash'
         }),
+        proxy: options.proxy ?? undefined,
       },
     )
 

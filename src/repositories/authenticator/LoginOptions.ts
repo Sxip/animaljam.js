@@ -1,3 +1,5 @@
+import { ProxyOptions } from '../../request/AnimalJamRequestOptions'
+
 export interface LoginOptions {
   /**
    * The screen name to use.
@@ -13,4 +15,9 @@ export interface LoginOptions {
    * Domain
    */
   domain?: 'flash' | 'mobile'
+
+  /**
+   * Proxy
+   */
+  proxy?: ProxyOptions
 }

@@ -7,6 +7,7 @@ import { inflate, inflateRaw } from 'node:zlib'
 import { HASH_KEY } from '../Constants'
 import { AnimalJamRequestOptions } from './AnimalJamRequestOptions'
 import { AnimalJamResponse } from './AnimalJamResponse'
+import { HttpProxyAgent } from 'http-proxy-agent'
 
 export class Request {  
   /**
@@ -34,6 +35,7 @@ export class Request {
       },
     })
 
+    if (options.proxy) options.agent = new HttpProxyAgent(`http://${options.proxy.host}:${options.proxy.port}`)
     if (!includeHost) delete options.headers['Host']
 
     /**
