@@ -32,6 +32,7 @@ export class NetworkingRepository extends NetifyClient<NullProtocol>  {
     public readonly options: NetworkingRepositoryOptions
   ) {
     super({
+      tls: true,
       host: options.host,
       port: options.port,
     })

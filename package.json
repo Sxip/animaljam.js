@@ -23,9 +23,14 @@
     "@electron/asar": "^3.2.10",
     "amfjs": "^1.3.1",
     "cheerio": "^1.0.0-rc.12",
+    "http-parser-js": "^0.5.8",
+    "http-proxy-agent": "^7.0.2",
     "lodash": "^4.17.21",
-    "netify.js": "github:sxip/netify.js#tls",
+    "netify.js": "github:sxip/netify.js",
+    "node-fetch": "^3.3.2",
+    "p-limit": "^6.1.0",
     "socks": "^2.8.3",
+    "socks-proxy-agent": "^8.0.4",
     "xmlbuilder2": "^3.1.1"
   },
   "devDependencies": {

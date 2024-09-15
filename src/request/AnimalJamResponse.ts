@@ -1,3 +1,5 @@
+import { Response } from 'node-fetch'
+
 export interface AnimalJamResponse<Data> {
   status: number
   statusText: string

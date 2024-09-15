@@ -5,6 +5,7 @@ import { AuthenticatorRepository } from './repositories/authenticator'
 import { DefPackRepository } from './repositories/defpack'
 import { FlashvarsRepository } from './repositories/flashvars'
 import { NetworkingRepository } from './repositories/networking'
+import { ProxyRepository } from './repositories/proxy'
 import { RoomRepository } from './repositories/room'
 import { Request } from './request'
 
@@ -43,17 +44,22 @@ export class AnimalJamClient {
    * Authenticator repository.
    */
   public readonly authenticator: AuthenticatorRepository = new AuthenticatorRepository(this)
-  
+
+  /**
+   * Proxy repository.
+   */
+  public readonly proxy: ProxyRepository = new ProxyRepository(this)
+
   /**
    * Networking repository.
    */
-  public readonly networking = NetworkingRepository 
+  public readonly networking = NetworkingRepository
 
   /**
    * Constructor.
    * @param options Options for the client.
    */
-  public constructor ({ deployVersion = '1678' }: AnimalJamClientOptions = {}) {
+  public constructor({ deployVersion = '1678' }: AnimalJamClientOptions = {}) {
     this.request.setDeployVersion(deployVersion)
   }
 }

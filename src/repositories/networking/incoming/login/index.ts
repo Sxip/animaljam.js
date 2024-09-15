@@ -14,7 +14,7 @@ export class LoginMessage {
     if (networking.options.domain === 'mobile') {
       return networking.sendRawMessage(`%xt%o%rj%-1%Jamaa.World#-1%0%`)
     } else {
-      return networking.sendRawMessage(`xt%o%rj%-1%jamaa_township.room_main#-1%1%0%0`)
+      return networking.sendRawMessage(`%xt%o%rj%-1%jamaa_township.room_main#-1%1%0%0%`)
     }
   }
 }

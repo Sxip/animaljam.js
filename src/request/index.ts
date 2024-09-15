@@ -1,3 +1,4 @@
+import fetch from 'node-fetch'
 import { AMF3, AMFDecoder } from 'amfjs'
 import { defaultsDeep } from 'lodash'
 import { createHash } from 'node:crypto'
@@ -39,6 +40,8 @@ export class Request {
      * More than likely the deploy version will be included in the url.
      */
     if (options.param) url = `${url.replace(/\[deploy_version\]/g, this.deployVersion)}/${this.hash(options.param)}`
+    if (options.timeout) options.disp
+
     const response = await fetch(url, options)
 
     const animalResponse: AnimalJamResponse<T> = {
@@ -46,6 +49,7 @@ export class Request {
       statusText: response.statusText,
       headers: response.headers,
     }
+    
 
     switch (animalResponse.headers.get('Content-Type')) {
       case 'audio/mpeg':

@@ -1,8 +1,9 @@
 import { AnimalJamClient } from '../src'
+import { setTimeout } from 'timers/promises'
 
 (async () => {
-  const screen_name = 'screen_name'
-  const password = 'password'
+  const screen_name = 'sxipfox'
+  const password = 'Pass12345678'
 
   const client = new AnimalJamClient()
 
@@ -36,11 +37,7 @@ import { AnimalJamClient } from '../src'
   await networking.createConnection()
   console.log('Connected to server!')
   
-  networking.on('message', (message) => {
-    console.log('Received message from server', message.toMessage())
-  })
-  
-  networking.on('close', () => {
-    console.log('Connection closed')
+  networking.on('message', async (message) => {
+    console.log('Received message from server', message.toMessage());
   })
 })()
