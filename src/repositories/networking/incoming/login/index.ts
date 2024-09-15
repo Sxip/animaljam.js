@@ -12,9 +12,9 @@ export class LoginMessage {
   })
   public async handle (_: any, networking: NetworkingRepository): Promise<void> {
     if (networking.options.domain === 'mobile') {
-      return networking.sendRawMessage(`%xt%o%rj%-1%Jamaa.World#-1%0%`)
+      await networking.sendRawMessage(`%xt%o%rj%-1%Jamaa.World#-1%0%`)
     } else {
-      return networking.sendRawMessage(`%xt%o%rj%-1%jamaa_township.room_main#-1%1%0%0%`)
+      await networking.sendRawMessage(`%xt%o%rj%-1%jamaa_township.room_main#-1%1%0%0%`)
     }
   }
 }

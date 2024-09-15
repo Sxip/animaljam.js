@@ -64,7 +64,6 @@ export class ProxyRepository extends Repository {
        */
       return { proxy, isWorking: true }
     } catch (error) {
-      console.log(error)
       return { proxy, isWorking: false }
     }
   }

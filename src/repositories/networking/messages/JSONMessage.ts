@@ -7,7 +7,6 @@ export class JSONMessage extends Message<any> {
    * @returns {void}
    */
   public parse (): void {
-    console.log('Parsing JSON message', this.messageRaw)
     this.message = JSON.parse(this.messageRaw)
     this.type = this.message.b.o._cmd
   }

@@ -14,7 +14,7 @@ export class LoginMessage {
       .ele('nick')
       .dat(
         options.isMobile
-          ? `${options.screen_name}%0%100.0.9%9%0%A PC%0%-1%0`
+          ? `${options.screen_name}%0%${options.deploy_version}%9%0%A PC%0%-1%0`
           : `${options.screen_name}%%0%${options.deploy_version}%PlugIn%32.0,0,403%WIN%0`
       )
       .up()
@@ -39,7 +39,7 @@ export class LoginMessage {
       .import(loginXml)
       .up()
 
-    if (!options.isMobile)  msgXml.att('h', hash);
+    if (!options.isMobile) msgXml.att('h', hash);
     return msgXml.end({ headless: true })
   }
 }

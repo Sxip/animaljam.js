@@ -91,7 +91,6 @@ export class NetworkClient extends EventEmitter {
         const { statusCode } = handleSocketResponse(data)
 
         if (statusCode === 200) {
-
           this.socket = tlsConnect({
             socket: proxySocket,
             host: this.options.host,
@@ -122,8 +121,8 @@ export class NetworkClient extends EventEmitter {
         rejectUnauthorized: false,
       })
 
-      this.socket.once('secureConnect', () => resolve())
-      this.socket.once('error', reject)
+      this.socket!.once('secureConnect', () => resolve())
+      this.socket!.once('error', reject)
     })
   }
 }

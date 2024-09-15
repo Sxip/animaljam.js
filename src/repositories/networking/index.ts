@@ -24,7 +24,6 @@ export class NetworkingRepository extends NetworkClient {
     return this
   }
 
-
   /**
    * Constructor.
    * @param options Options for the networking repository.
@@ -94,7 +93,7 @@ export class NetworkingRepository extends NetworkClient {
       recursive: true
     })
 
-    for (const handler of handlers.filter(handler => /index\.(ts|js)$/i.test(handler)))
+    for (const handler of handlers.filter(handler => /index\.(ts|js)$/i.test(handler))) 
       import(`./incoming/${handler}`)
   }
 

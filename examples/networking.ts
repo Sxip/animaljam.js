@@ -35,7 +35,7 @@ import { AnimalJamClient } from '../src'
     screen_name: screen_name,
     deploy_version: flashvars.deploy_version,
 
-    // This proxy will not work for you, remove if you don't need a proxy
+    // This proxy will not work for you, remove if you don't need a proxy or add your own
     proxy: {
       host: '104.167.24.75',
       port: 3128,
