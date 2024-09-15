@@ -1,4 +1,4 @@
-import { ProxyOptions } from '../../request/AnimalJamRequestOptions'
+import { Proxy } from '../../utils/proxy'
 
 export interface NetworkingRepositoryOptions {
   host: string
@@ -9,5 +9,5 @@ export interface NetworkingRepositoryOptions {
   deploy_version: string
   domain?: 'flash' | 'mobile'
 
-  proxy?: ProxyOptions
+  proxy?: Proxy
 }

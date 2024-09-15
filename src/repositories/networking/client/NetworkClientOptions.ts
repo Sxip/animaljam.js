@@ -1,8 +1,8 @@
-import { ProxyOptions } from "../../../request/AnimalJamRequestOptions"
+import { Proxy } from '../../../utils/proxy'
 
 export interface NetworkClientOptions {
   host: string
   port: number
 
-  proxy? : ProxyOptions
+  proxy? : Proxy
 }
