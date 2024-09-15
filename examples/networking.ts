@@ -34,10 +34,16 @@ import { AnimalJamClient } from '../src'
     auth_token: auth_token,
     screen_name: screen_name,
     deploy_version: flashvars.deploy_version,
+
+    // This proxy will not work for you, remove if you don't need a proxy
+    proxy: {
+      host: '104.167.24.75',
+      port: 3128,
+    },
   })
 
 
-  await networking.createConnection()
+  await networking.connect()
   console.log('Connected to server!')
   
   networking.on('message', async (message) => {

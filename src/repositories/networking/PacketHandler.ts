@@ -27,7 +27,7 @@ export class PacketHandler {
     }
   }
 
-  public handle<T> (validMessage: XMLMessage | JSONMessage | XTMessage): void {
+  public handle (validMessage: XMLMessage | JSONMessage | XTMessage): void {
     const { type } = validMessage
 
     for (const handler of handlers) {

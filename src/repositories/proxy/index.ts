@@ -5,6 +5,8 @@ import { HttpProxyAgent } from 'http-proxy-agent'
 import pLimit from 'p-limit'
 import { createConnection } from 'node:net'
 
+import { handleSocketResponse } from '../../utils/proxy'
+
 export class ProxyRepository extends Repository {
   /**
    * Timeout for the proxy test.
@@ -68,36 +70,6 @@ export class ProxyRepository extends Repository {
   }
 
   /**
-   * Creates a connection request to the proxy.
-   * @param targetHost The target host to connect to.
-   * @param targetPort The target port to connect to.
-   */
-  private createConnectRequest (targetHost: string, targetPort: number): Buffer {
-    const request = [
-      `CONNECT ${targetHost}:${targetPort} HTTP/1.1`,
-      `Host: ${targetHost}`,
-      '\r\n'
-    ].join('\r\n')
-
-    return Buffer.from(request)
-  }
-
-  /**
-   * Handles parsing the response from the proxy.
-   * @param data The data to parse.
-   */
-  private handleSocketResponse (data: Buffer): { statusCode: number, statusMessage: string } {
-    const responseString = data.toString('utf-8')
-    const [statusLine] = responseString.split('\r\n')
-    const [_, statusCode, statusMessage] = statusLine.split(' ')
-
-    return {
-      statusCode: parseInt(statusCode, 10),
-      statusMessage: statusMessage || ''
-    }
-  }
-
-  /**
    * Tests a socks5 proxy to see if it is working.
    * We don't need to test TLS because Animal Jam handles raw socket connection to test the proxy, so if raw sockets are working, the proxy is working.
    * @param proxy The proxy to test.
@@ -137,7 +109,7 @@ export class ProxyRepository extends Repository {
   
       proxySocket.once('data', async (data: Buffer) => {
         clearTimeout(dataTimeoutId)
-        const { statusCode } = this.handleSocketResponse(data)
+        const { statusCode } = handleSocketResponse(data)
         if (statusCode === 200) {
           proxySocket.end()
           resolve({ proxy, isWorking: true })

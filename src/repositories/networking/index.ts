@@ -1,27 +1,29 @@
-import { readdir } from 'fs/promises'
-import { NetifyClient, NullProtocol } from 'netify.js'
-import * as path from 'node:path'
 import { NetworkingRepositoryOptions } from './NetworkingRepositoryOptions'
 import { PacketHandler } from './PacketHandler'
-import { JSONMessage } from './messages/JSONMessage'
-import { XMLMessage } from './messages/XMLMessage'
-import { XTMessage } from './messages/XTMessage'
 import { RndKMessage } from './outgoing/rndK'
+import { NetworkClient } from './client/NetworkClient'
+import { readdir } from 'node:fs/promises'
+import path from 'node:path'
 
-export class NetworkingRepository extends NetifyClient<NullProtocol>  {
+import { XMLMessage } from './messages/XMLMessage'
+import { JSONMessage } from './messages/JSONMessage'
+import { XTMessage } from './messages/XTMessage'
+
+export class NetworkingRepository extends NetworkClient {
   private readonly packetHandler: PacketHandler = new PacketHandler(this)
 
   /**
    * Event handlers.
    */
-  public on (event: 'message', listener: (message: XMLMessage | JSONMessage | XTMessage) => void): this
-  public on (event: 'received', listener: (message: any) => any): this
-  public on (event: 'error', listener: (error: Error) => any): this
-  public on (event: 'close', listener: () => any): this
-  public on (event: any, listener: (...args: any[]) => void): this {
+  public on(event: 'message', listener: (message: XMLMessage | JSONMessage | XTMessage) => void): this
+  public on(event: 'received', listener: (message: any) => any): this
+  public on(event: 'error', listener: (error: Error) => any): this
+  public on(event: 'close', listener: () => any): this
+  public on(event: any, listener: (...args: any[]) => void): this {
     super.on(event, listener);
     return this
   }
+
 
   /**
    * Constructor.
@@ -32,9 +34,9 @@ export class NetworkingRepository extends NetifyClient<NullProtocol>  {
     public readonly options: NetworkingRepositoryOptions
   ) {
     super({
-      tls: true,
       host: options.host,
       port: options.port,
+      proxy: options.proxy,
     })
   }
 
@@ -54,12 +56,33 @@ export class NetworkingRepository extends NetifyClient<NullProtocol>  {
       screen_name: options.screen_name,
       deploy_version: options.deploy_version,
 
-      domain: options.domain ?? 'flash'
+      domain: options.domain ?? 'flash',
+      proxy: options.proxy ?? undefined,
     })
-      .useProtocol(NullProtocol)
 
     await networking.usePacketHandlers()
     return networking
+  }
+
+  /**
+   * Creates a connection to the server.
+   * @returns {Promise<void>}
+   */
+  public async connect(): Promise<void> {
+    await super.connect()
+
+
+    this.on('received', this.onReceivedMessage.bind(this))
+    this.sendRawMessage(RndKMessage.build())
+  }
+
+  /**
+ * Handles sending a raw message.
+ * @param message The message to send.
+ * @returns {Promise<void>}
+ */
+  public async sendRawMessage(message: string): Promise<number> {
+    return await this.write(message)
   }
 
   /**
@@ -76,19 +99,6 @@ export class NetworkingRepository extends NetifyClient<NullProtocol>  {
   }
 
   /**
-   * Creates a connection to the server.
-   * @returns {Promise<void>}
-   */
-  public async createConnection(): Promise<void> {
-    await this.connect()
-
-    this.on('received', this.onReceivedMessage.bind(this))
-
-    // Send rndK packet to get the server's auth token
-    this.sendRawMessage(RndKMessage.build())
-  }
-
-  /**
    * Handles the received message buffer.
    * @param buffer The received message buffer.
    */
@@ -100,18 +110,7 @@ export class NetworkingRepository extends NetifyClient<NullProtocol>  {
       validMessage.parse()
 
       this.packetHandler.handle(validMessage)
-      this.emit('message', validMessage)
+      this.emit('message', validMessage.message)
     }
-  }
-
-  /**
-   * Handles sending a raw message.
-   * @param message The message to send.
-   * @returns {Promise<void>}
-   */
-  public async sendRawMessage(message: string): Promise<void> {
-    this.write(message)
-    this.write('\x00')
-    await this.flush()
   }
 }

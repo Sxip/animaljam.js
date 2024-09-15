@@ -1,3 +1,5 @@
+import { ProxyOptions } from '../../request/AnimalJamRequestOptions'
+
 export interface NetworkingRepositoryOptions {
   host: string
   port: number
@@ -6,4 +8,6 @@ export interface NetworkingRepositoryOptions {
   screen_name: string
   deploy_version: string
   domain?: 'flash' | 'mobile'
+
+  proxy?: ProxyOptions
 }

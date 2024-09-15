@@ -15,6 +15,7 @@ export class RndKMessage {
   public handle ({ message }: XMLMessage, networking: NetworkingRepository): void {
     const hash = message('msg').text()
 
+    console.log('Hash:', hash)
     networking.sendRawMessage(LoginMessage.build({
       isMobile: networking.options.domain === 'mobile',
       screen_name: networking.options.screen_name,

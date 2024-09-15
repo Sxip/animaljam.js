@@ -5,8 +5,9 @@ import { AnimalJamClient } from '../src';
 
   const proxies = await client.proxy.test({
     concurrency: 10,
+    timeout: 10000,
     proxies: [
-      { type: 'socks5', host: '47.90.149.238', port: 3128 },
+      { type: 'socks5', host: '8.211.200.183', port: 9098 },
     ],
   })
 

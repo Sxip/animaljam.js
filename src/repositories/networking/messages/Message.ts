@@ -7,7 +7,7 @@ export abstract class Message<T> {
    * @param message The message to parse.
    * @constructor
    */
-  public constructor (public readonly messageRaw: string)  {}
+  public constructor (public readonly messageRaw: string) {}
 
   /**
    * Handles the parsing of the message.

@@ -26,7 +26,7 @@
     "http-parser-js": "^0.5.8",
     "http-proxy-agent": "^7.0.2",
     "lodash": "^4.17.21",
-    "netify.js": "github:sxip/netify.js",
+    "netify.js": "github:sxip/netify.js#tls",
     "node-fetch": "^3.3.2",
     "p-limit": "^6.1.0",
     "socks": "^2.8.3",
