@@ -1,7 +1,10 @@
 import { AnimalJamClient } from '../src'
-import { setTimeout } from 'timers/promises'
 
 (async () => {
+  /**
+   * This account will probably be banned.
+   * Use your own account.
+   */
   const screen_name = 'sxipfox'
   const password = 'Pass12345678'
 
