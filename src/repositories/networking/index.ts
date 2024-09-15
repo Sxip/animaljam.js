@@ -110,7 +110,7 @@ export class NetworkingRepository extends NetworkClient {
       validMessage.parse()
 
       this.packetHandler.handle(validMessage)
-      this.emit('message', validMessage.message)
+      this.emit('message', validMessage)
     }
   }
 }

@@ -29,8 +29,6 @@
     "netify.js": "github:sxip/netify.js#tls",
     "node-fetch": "^3.3.2",
     "p-limit": "^6.1.0",
-    "socks": "^2.8.3",
-    "socks-proxy-agent": "^8.0.4",
     "xmlbuilder2": "^3.1.1"
   },
   "devDependencies": {

@@ -83,7 +83,7 @@ export class NetworkClient extends EventEmitter {
       })
 
       proxySocket.once('connect', () => {
-        const connectRequest = createConnectRequest(this.options.host, this.options.port)
+        const connectRequest = createConnectRequest(this.options.host, this.options.port, true)
         proxySocket.write(connectRequest)
       })
 
@@ -123,6 +123,7 @@ export class NetworkClient extends EventEmitter {
       })
 
       this.socket.once('secureConnect', () => resolve())
+      this.socket.once('error', reject)
     })
   }
 }
