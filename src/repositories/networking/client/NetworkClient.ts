@@ -38,40 +38,39 @@ export class NetworkClient extends EventEmitter {
    * Writes data to the socket.
    * @param data The data to write.
    */
-  public write (message: string): Promise<number> {
+  public async write(message: string): Promise<number> {
     return new Promise<number>((resolve, reject) => {
+      const cleanup = () => {
+        this.socket!.off('error', onError)
+        this.socket!.off('close', onClose)
+      }
+  
       const onError = (err: Error) => {
         cleanup()
         reject(err)
       }
-
-      const onDrain = () => {
-        cleanup()
-        resolve((message).length)
-      }
-
+  
       const onClose = () => {
         cleanup()
         reject(new Error('Socket closed before the message could be sent'))
       }
-
-      const cleanup = () => {
-        this.socket!.off('error', onError)
-        this.socket!.off('drain', onDrain)
-        this.socket!.off('close', onClose)
-      }
-
+  
       this.socket!.once('error', onError)
-      this.socket!.once('drain', onDrain)
       this.socket!.once('close', onClose)
-
+  
       const writable = this.socket!.write(message) && this.socket!.write('\x00')
       if (writable) {
         cleanup()
-        resolve((message).length)
+        resolve(message.length)
+      } else {
+        this.socket!.once('drain', () => {
+          cleanup()
+          resolve(message.length)
+        })
       }
     })
   }
+
   /**
    * Creates a new connection to the server using a proxy.
    */
@@ -81,15 +80,13 @@ export class NetworkClient extends EventEmitter {
         host: this.options.proxy!.host,
         port: this.options.proxy!.port,
       })
-
-      proxySocket.once('connect', () => {
-        const connectRequest = createConnectRequest(this.options.host, this.options.port, true)
-        proxySocket.write(connectRequest)
+  
+      proxySocket.on('connect', () => {
+        proxySocket.write(createConnectRequest(this.options.host, this.options.port, true))
       })
-
+  
       proxySocket.once('data', (data) => {
         const { statusCode } = handleSocketResponse(data)
-
         if (statusCode === 200) {
           this.socket = tlsConnect({
             socket: proxySocket,
@@ -97,15 +94,15 @@ export class NetworkClient extends EventEmitter {
             port: this.options.port,
             rejectUnauthorized: false,
           })
-
-          this.socket!.once('secureConnect', () => resolve())
+          
+          this.socket.once('secureConnect', () => resolve())
         } else {
           reject(new Error(`Proxy connection failed with status code ${statusCode}`))
           proxySocket.destroy()
         }
       })
-
-      proxySocket.on('error', (err) => reject(err))
+  
+      proxySocket.on('error', reject)
       proxySocket.on('close', () => reject(new Error('Proxy socket closed unexpectedly')))
     })
   }

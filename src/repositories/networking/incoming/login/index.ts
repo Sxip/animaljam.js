@@ -1,5 +1,6 @@
 import { NetworkingRepository } from '../..'
 import { IncomingMessageHandler } from '../../decorators/PacketHandler'
+import { XTMessage } from '../../messages/XTMessage'
 
 export class LoginMessage {
   /**
@@ -7,7 +8,7 @@ export class LoginMessage {
    * @param param The packet to handle.
    * @returns {void}
    */
-  @IncomingMessageHandler({
+  @IncomingMessageHandler<XTMessage>({
     message: 'login',
   })
   public async handle (_: any, networking: NetworkingRepository): Promise<void> {

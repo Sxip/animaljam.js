@@ -9,7 +9,7 @@ export class RndKMessage {
    * @param param The packet to handle.
    * @returns {void}
    */
-  @IncomingMessageHandler({
+  @IncomingMessageHandler<XMLMessage>({
     message: 'rndK',
   })
   public handle ({ message }: XMLMessage, networking: NetworkingRepository): void {
