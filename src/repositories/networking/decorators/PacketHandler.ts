@@ -1,10 +1,11 @@
+import { NetworkingRepository } from '..'
 import { PacketHandleOptions } from './PacketHandleOptions'
 
 export const handlers: Handler<any>[] = []
 
 interface Handler<T> {
   message: string
-  handler: (message: T) => any
+  handler: (message: T, networking: NetworkingRepository) => any
 }
 
 /**

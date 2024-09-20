@@ -1,20 +1,19 @@
 {
   "compilerOptions": {
-    "lib": ["es7"],
     "declaration": true,
-    "esModuleInterop": false,
-    "module": "CommonJS",
+    "esModuleInterop": true,
+    "module": "ESNext",
     "moduleResolution": "Node",
     "noImplicitAny": false,
     "removeComments": true,
     "noLib": false,
     "experimentalDecorators": true,
     "allowSyntheticDefaultImports": true,
-    "target": "ES2017",
-    "sourceMap": true,
+    "forceConsistentCasingInFileNames": true,
+    "target": "ES2023",
     "outDir": "./dist",
+    "skipLibCheck": true,
     "baseUrl": "./",
-    "allowJs": false,
     "resolveJsonModule": true,
     "noUnusedLocals": true
   }

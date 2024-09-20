@@ -1,6 +1,5 @@
 import fetch from 'node-fetch'
-import { AMF3, AMFDecoder } from 'amfjs'
-import { defaultsDeep } from 'lodash'
+import { defaultsDeep} from 'lodash-es'
 import { createHash } from 'node:crypto'
 import { Readable } from 'node:stream'
 import { inflate, inflateRaw } from 'node:zlib'
@@ -86,6 +85,9 @@ export class Request {
    * @returns {Promise<object>}
    */
   private async decompress(buffer: Buffer, rawDecompress: boolean): Promise<object> {
+    const amfjs = await import('amfjs');
+    const { AMF3, AMFDecoder } = amfjs.default ?? amfjs;
+
     const decompressed = await new Promise<Buffer>((resolve, reject) => rawDecompress ? inflateRaw(buffer, (error, decoded) => {
       if (error) reject(error)
       else resolve(decoded)
