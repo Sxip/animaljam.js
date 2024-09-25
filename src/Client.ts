@@ -4,6 +4,7 @@ import { AudioRepository } from './repositories/audio'
 import { AuthenticatorRepository } from './repositories/authenticator'
 import { DefPackRepository } from './repositories/defpack'
 import { FlashvarsRepository } from './repositories/flashvars'
+import { MasterpieceRepository } from './repositories/masterpiece'
 import { NetworkingRepository } from './repositories/networking'
 import { ProxyRepository } from './repositories/proxy'
 import { RoomRepository } from './repositories/room'
@@ -49,6 +50,11 @@ export class AnimalJamClient {
    * Proxy repository.
    */
   public readonly proxy: ProxyRepository = new ProxyRepository(this)
+
+  /**
+   * Masterpiece repository.
+   */
+  public readonly masterpiece: MasterpieceRepository = new MasterpieceRepository(this)
 
   /**
    * Networking repository.
