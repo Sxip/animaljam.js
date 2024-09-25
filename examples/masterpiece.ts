@@ -6,7 +6,7 @@ import { AnimalJamClient } from '../src'
   await client.masterpiece.encode({
     imagePath: './examples/pepe.png',
     saveFile: true,
-    saveFileMasterpiecePath: './test',
+    saveFileMasterpiecePath: './examples/masterpieces',
     uuid: '8788a8df-d0af-4154-b8ed-24d7552a3ea0',
   })
 })()
