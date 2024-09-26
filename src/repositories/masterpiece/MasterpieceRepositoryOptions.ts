@@ -7,7 +7,7 @@ export interface MasterpieceRepositoryOptions {
   /**
    * The type of the masterpiece.
    */
-  type?: 'aja2id' | 'aja2id2'
+  type?: 'aja2id' | 'ajg1id'
 
   /**
    * User uuid.
