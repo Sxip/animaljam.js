@@ -2,7 +2,10 @@ import { NetworkingRepositoryOptions } from './NetworkingRepositoryOptions'
 import { PacketHandler } from './PacketHandler'
 import { RndKMessage } from './outgoing/rndK'
 import { NetworkClient } from './client/NetworkClient'
+import { HMAC_KEY } from '../../Constants'
 import { readdir } from 'node:fs/promises'
+import { createHmac } from 'node:crypto'
+import { User } from './objects/user'
 import path from 'node:path'
 
 import { XMLMessage } from './messages/XMLMessage'
@@ -10,7 +13,15 @@ import { JSONMessage } from './messages/JSONMessage'
 import { XTMessage } from './messages/XTMessage'
 
 export class NetworkingRepository extends NetworkClient {
+  /**
+   * Packet handler.
+   */
   private readonly packetHandler: PacketHandler = new PacketHandler(this)
+
+  /**
+   * The user object.
+   */
+  public user: User | null = null
 
   /**
    * Event handlers.
@@ -20,7 +31,7 @@ export class NetworkingRepository extends NetworkClient {
   public on(event: 'error', listener: (error: Error) => any): this
   public on(event: 'close', listener: () => any): this
   public on(event: any, listener: (...args: any[]) => void): this {
-    super.on(event, listener);
+    super.on(event, listener)
     return this
   }
 
@@ -82,6 +93,23 @@ export class NetworkingRepository extends NetworkClient {
  */
   public async sendRawMessage(message: string): Promise<number> {
     return await this.write(message)
+  }
+
+  /**
+   * Creates a hmac message for Animal Jam Play Wild.
+   * @param message The message to create the hmac for.
+   * @returns {string}
+   */
+  public createHmacMessage(message: string): string {
+    if (this.options.domain !== 'mobile') throw new Error('createHmacMessage is only supported for mobile')
+    if (!this.user) throw new Error('user is not set, call connect() first')
+
+    const secret = `${HMAC_KEY}${this.user.session}`
+    message = `${message}${this.user.uuid}`
+  
+    return createHmac('sha256', secret)
+      .update(message)
+      .digest('base64')
   }
 
   /**

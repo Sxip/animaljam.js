@@ -15,9 +15,9 @@ This is a TypeScript client for the `private` Animal Jam Classic API. This clien
 - Packing asar files.
 - Fetching flashvars.
 - Networking client (handles most of the communication with the server).
+- HMAC support for Animal Jam Play Wild.
 - Proxy support.
 - Proxy tester.
-
 
 # Table of Contents
 

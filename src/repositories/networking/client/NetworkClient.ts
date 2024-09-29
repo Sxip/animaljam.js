@@ -6,7 +6,6 @@ import { TLSSocket, connect as tlsConnect } from 'node:tls'
 import { createConnectRequest, handleSocketResponse } from '../../../utils/proxy'
 import { DelimiterTransform } from '../transform'
 
-
 export class NetworkClient extends EventEmitter {
   private socket: TLSSocket | null = null
 
