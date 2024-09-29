@@ -16,7 +16,7 @@ This is a TypeScript client for the `private` Animal Jam Classic API. This clien
 - Fetching flashvars.
 - Networking client (handles most of the communication with the server).
 - HMAC support for Animal Jam Play Wild.
-- Masterpiece encoder (aja2id and aja2id2).
+- Masterpiece encoder (aja2id and ajg1id).
 - Proxy support.
 - Proxy tester.
 
