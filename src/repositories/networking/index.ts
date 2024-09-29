@@ -26,11 +26,11 @@ export class NetworkingRepository extends NetworkClient {
   /**
    * Event handlers.
    */
-  public on(event: 'message', listener: (message: XMLMessage | JSONMessage | XTMessage) => void): this
-  public on(event: 'received', listener: (message: any) => any): this
-  public on(event: 'error', listener: (error: Error) => any): this
-  public on(event: 'close', listener: () => any): this
-  public on(event: any, listener: (...args: any[]) => void): this {
+  public on (event: 'message', listener: (message: XMLMessage | JSONMessage | XTMessage) => void): this
+  public on (event: 'received', listener: (message: any) => any): this
+  public on (event: 'error', listener: (error: Error) => any): this
+  public on (event: 'close', listener: () => any): this
+  public on (event: any, listener: (...args: any[]) => void): this {
     super.on(event, listener)
     return this
   }
@@ -40,7 +40,7 @@ export class NetworkingRepository extends NetworkClient {
    * @param options Options for the networking repository.
    * @constructor
    */
-  public constructor(
+  public constructor (
     public readonly options: NetworkingRepositoryOptions
   ) {
     super({
@@ -55,7 +55,7 @@ export class NetworkingRepository extends NetworkClient {
    * @param options Options for the networking client.
    * @returns {Promise<NetifyClient<NullProtocol>>}
    */
-  public static async createClient(options: NetworkingRepositoryOptions): Promise<NetworkingRepository> {
+  public static async createClient (options: NetworkingRepositoryOptions): Promise<NetworkingRepository> {
     options.host = `lb-${options.host.replace(/\.(stage|prod)\.animaljam\.internal$/, '-$1.animaljam.com')}`
 
     const networking = new NetworkingRepository({
@@ -78,7 +78,7 @@ export class NetworkingRepository extends NetworkClient {
    * Creates a connection to the server.
    * @returns {Promise<void>}
    */
-  public async connect(): Promise<void> {
+  public async connect (): Promise<void> {
     await super.connect()
 
 
@@ -91,7 +91,7 @@ export class NetworkingRepository extends NetworkClient {
  * @param message The message to send.
  * @returns {Promise<void>}
  */
-  public async sendRawMessage(message: string): Promise<number> {
+  public async sendRawMessage (message: string): Promise<number> {
     return await this.write(message)
   }
 
@@ -100,7 +100,7 @@ export class NetworkingRepository extends NetworkClient {
    * @param message The message to create the hmac for.
    * @returns {string}
    */
-  public createHmacMessage(message: string): string {
+  public createHmacMessage (message: string): string {
     if (this.options.domain !== 'mobile') throw new Error('createHmacMessage is only supported for mobile')
     if (!this.user) throw new Error('user is not set, call connect() first')
 
@@ -116,7 +116,7 @@ export class NetworkingRepository extends NetworkClient {
    * Connects to the server.
    * @returns {Promise<void>}
    */
-  public async usePacketHandlers(): Promise<void> {
+  public async usePacketHandlers (): Promise<void> {
     const handlers = await readdir(path.resolve(__dirname, './incoming'), {
       recursive: true
     })
@@ -129,7 +129,7 @@ export class NetworkingRepository extends NetworkClient {
    * Handles the received message buffer.
    * @param buffer The received message buffer.
    */
-  private onReceivedMessage(buffer: Buffer): void {
+  private onReceivedMessage (buffer: Buffer): void {
     const message = buffer.toString()
 
     const validMessage = this.packetHandler.validate(message)
