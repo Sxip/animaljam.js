@@ -6,24 +6,39 @@
   <br />
 </div>
 
-This is a TypeScript client for the `private` Animal Jam Classic API. This client is far from finished, but it still comes with some cool features.
+**AnimalJam.js** is a comprehensive TypeScript client primarily designed for interacting with the private **Animal Jam Classic API**, yet it also extends its capabilities to handle **Animal Jam Play Wild** networking and login features. Although the project is still in active development, it already includes an exciting set of features for both games!
 
-- Decoding defpacks.
-- Decoding audio files.
-- Decoding rooms.
-- Unpacking asar files.
-- Packing asar files.
-- Fetching flashvars.
-- Networking client (handles most of the communication with the server).
-- HMAC support for Animal Jam Play Wild.
-- Masterpiece encoder (aja2id and ajg1id).
-- Proxy support.
-- Proxy tester.
+- 🗂️ **Defpack Decoding**  
+  Decode defpack files to extract valuable data.
+  
+- 🎵 **Audio File Decoding**  
+  Support for decoding in-game audio assets.
+  
+- 🏠 **Room Decoding**  
+  Decode and explore room data.
+  
+- 📦 **Asar File Handling**  
+  Unpack and repack `.asar` files with ease.
+  
+- 🌐 **Networking Client**  
+  Seamlessly handle communication with the servers for both **Animal Jam Classic** and **Animal Jam Play Wild**.
+  
+- 🔑 **HMAC Support**  
+  Built-in HMAC generation for secure communication in **Animal Jam Play Wild**.
+  
+- 🖼️ **Masterpiece Encoder**  
+  Encode masterpieces into `aja2id` and `ajg1id` formats.
+  
+- 🛡️ **Proxy Support & Testing**  
+  Integrated proxy support with a built-in proxy tester.
+
+---
 
 # Table of Contents
 
 - [Install](#install)
 - [Examples](#examples)
+---
 
 # Install
 
