@@ -121,4 +121,15 @@ export class NetworkClient extends EventEmitter {
       this.socket!.once('error', reject)
     })
   }
+
+  /**
+   * Closes the connection.
+   */
+  public async close (): Promise<void> {
+    return new Promise<void>((resolve, reject) => {
+      this.socket!.end()
+      this.socket!.once('close', () => resolve())
+      this.socket!.once('error', reject)
+    })
+  }
 }

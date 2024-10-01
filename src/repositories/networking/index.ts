@@ -140,4 +140,12 @@ export class NetworkingRepository extends NetworkClient {
       this.emit('message', validMessage)
     }
   }
+
+  /**
+   * Closes the connection.
+   */
+  public async close (): Promise<void> {
+    await super.close()
+    this.emit('close')
+  }
 }
