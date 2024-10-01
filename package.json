@@ -1,6 +1,6 @@
 {
   "name": "animaljam.js",
-  "version": "1.0.26",
+  "version": "1.0.27",
   "description": "Animal Jam API Client",
   "author": "Sxip",
   "main": "./dist/index.js",
