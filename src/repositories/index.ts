@@ -15,7 +15,7 @@ export abstract class Repository {
    * @param options Options for the decoding.
    * @returns {Promise<any>}
    */
-  public decode? (name: string, options?: any): Promise<any>
+  public decode? (...args: any[]): Promise<any>
 
   /**
    * Saves an audio file.

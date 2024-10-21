@@ -16,8 +16,8 @@ export class AuthenticatorRepository extends Repository {
         method: 'POST',
         includeHost: false,
         headers: {
-          'User-Agent': 'UnityPlayer/2020.3.40f1 (UnityWebRequest/1.0, libcurl/7.84.0-DEV)',
           'host': 'authenticator.animaljam.com',
+          'User-Agent': 'UnityPlayer/2020.3.40f1 (UnityWebRequest/1.0, libcurl/7.84.0-DEV)',
         },
         body: JSON.stringify({
           username: options.screen_name,
@@ -27,7 +27,7 @@ export class AuthenticatorRepository extends Repository {
         proxy: options.proxy ?? undefined,
       },
     )
-
+    
    return response.data
   }
 }

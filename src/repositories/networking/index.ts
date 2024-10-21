@@ -6,7 +6,8 @@ import { HMAC_KEY } from '../../Constants'
 import { readdir } from 'node:fs/promises'
 import { createHmac } from 'node:crypto'
 import { User } from './objects/user'
-import path from 'node:path'
+import path, { dirname } from 'node:path'
+import { fileURLToPath } from 'node:url'
 
 import { XMLMessage } from './messages/XMLMessage'
 import { JSONMessage } from './messages/JSONMessage'
@@ -117,7 +118,7 @@ export class NetworkingRepository extends NetworkClient {
    * @returns {Promise<void>}
    */
   public async usePacketHandlers (): Promise<void> {
-    const handlers = await readdir(path.resolve(__dirname, './incoming'), {
+    const handlers = await readdir(path.resolve(dirname(fileURLToPath(import.meta.url)), './incoming'), {
       recursive: true
     })
 
