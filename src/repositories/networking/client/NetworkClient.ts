@@ -1,13 +1,13 @@
 import { EventEmitter } from 'node:events'
 import { NetworkClientOptions } from './NetworkClientOptions'
 
-import { createConnection } from 'node:net'
+import { createConnection, Socket } from 'node:net'
 import { TLSSocket, connect as tlsConnect } from 'node:tls'
 import { createConnectRequest, handleSocketResponse } from '../../../utils/proxy'
 import { DelimiterTransform } from '../transform'
 
 export class NetworkClient extends EventEmitter {
-  private socket: TLSSocket | null = null
+  private socket: TLSSocket | Socket  | null = null
 
   /**
    * Constructor.
@@ -76,33 +76,64 @@ export class NetworkClient extends EventEmitter {
   private async createProxyConnection(): Promise<void> {
     return new Promise<void>((resolve, reject) => {
       const proxySocket = createConnection({
-        host: this.options.proxy!.host,
-        port: this.options.proxy!.port,
+        host: this.options.proxy?.host,
+        port: this.options.proxy?.port,
       })
   
-      proxySocket.on('connect', () => {
+      const cleanUp = () => {
+        proxySocket.removeAllListeners()
+        this.socket?.removeAllListeners()
+      }
+  
+      proxySocket.once('connect', () => {
         proxySocket.write(createConnectRequest(this.options.host, this.options.port, true))
       })
   
       proxySocket.once('data', (data) => {
-        const { statusCode } = handleSocketResponse(data)
-        if (statusCode === 200) {
-          this.socket = tlsConnect({
-            socket: proxySocket,
-            host: this.options.host,
-            port: this.options.port,
-            rejectUnauthorized: false,
-          })
-          
-          this.socket.once('secureConnect', () => resolve())
-        } else {
-          reject(new Error(`Proxy connection failed with status code ${statusCode}`))
-          proxySocket.destroy()
+        try {
+          const { statusCode } = handleSocketResponse(data)
+  
+          if (statusCode === 200) {
+            this.socket =
+              this.options.domain === 'mobile'
+                ? proxySocket
+                : tlsConnect({
+                    socket: proxySocket,
+                    host: this.options.host,
+                    port: this.options.port,
+                    rejectUnauthorized: false,
+                  })
+  
+            const onConnect = () => {
+              cleanUp()
+              resolve()
+            }
+  
+            this.socket.once('secureConnect', onConnect)
+            this.socket.once('connect', onConnect)
+            this.socket.once('error', (err) => {
+              cleanUp()
+              reject(err)
+            })
+          } else {
+            cleanUp()
+            reject(new Error(`Proxy connection failed with status code ${statusCode}`))
+          }
+        } catch (err) {
+          cleanUp()
+          reject(err)
         }
       })
   
-      proxySocket.on('error', reject)
-      proxySocket.on('close', () => reject(new Error('Proxy socket closed unexpectedly')))
+      proxySocket.once('error', (err) => {
+        cleanUp()
+        reject(err)
+      })
+  
+      proxySocket.once('close', () => {
+        cleanUp()
+        reject(new Error('Proxy socket closed unexpectedly'))
+      })
     })
   }
 
@@ -110,15 +141,34 @@ export class NetworkClient extends EventEmitter {
    * Creates a new connection to the server.
    */
   private async createConnection(): Promise<void> {
+    const connectionOptions = {
+      host: this.options.host,
+      port: this.options.port,
+    }
+  
+    this.socket =
+      this.options.domain === 'mobile'
+        ? createConnection(connectionOptions)
+        : tlsConnect({
+            ...connectionOptions,
+            rejectUnauthorized: false,
+          })
+  
     return new Promise<void>((resolve, reject) => {
-      this.socket = tlsConnect({
-        host: this.options.host,
-        port: this.options.port,
-        rejectUnauthorized: false,
-      })
+      const onConnect = () => {
+        this.socket!.removeListener('error', reject)
+        resolve()
+      }
 
-      this.socket!.once('secureConnect', () => resolve())
-      this.socket!.once('error', reject)
+      const onError = (err: Error) => {
+        this.socket!.removeListener('secureConnect', onConnect)
+        this.socket!.removeListener('connect', onConnect)
+        reject(err)
+      }
+  
+      this.socket!.once('secureConnect', onConnect)
+      this.socket!.once('connect', onConnect)
+      this.socket!.once('error', onError)
     })
   }
 

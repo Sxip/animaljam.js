@@ -48,6 +48,7 @@ export class NetworkingRepository extends NetworkClient {
       host: options.host,
       port: options.port,
       proxy: options.proxy,
+      domain: options.domain ?? 'flash',
     })
   }
 
@@ -57,7 +58,7 @@ export class NetworkingRepository extends NetworkClient {
    * @returns {Promise<NetifyClient<NullProtocol>>}
    */
   public static async createClient (options: NetworkingRepositoryOptions): Promise<NetworkingRepository> {
-    options.host = `lb-${options.host.replace(/\.(stage|prod)\.animaljam\.internal$/, '-$1.animaljam.com')}`
+    if (options.domain !== 'mobile') options.host = `lb-${options.host.replace(/\.(stage|prod)\.animaljam\.internal$/, '-$1.animaljam.com')}`
 
     const networking = new NetworkingRepository({
       host: options.host,
