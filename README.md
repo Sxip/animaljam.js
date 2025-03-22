@@ -108,7 +108,7 @@ import { AnimalJamClient } from 'animaljam.js'
   })
 
 
-  await networking.createConnection()
+  await networking.connect()
   console.log('Connected to server!')
   
   networking.on('message', (message) => {
