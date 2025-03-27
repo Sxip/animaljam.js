@@ -79,9 +79,8 @@ import { AnimalJamClient } from '../src'
        * Sends the the dmi message to the server.
        * if you're using mobile you have to use `dMl` instead of `dmi`.
        */
-      const masterpieces = await networking.waitForMessageOfType<XTMessage>({ 
-        type: 'dmi', 
-        timeout: 1000 
+      const masterpieces = await networking.waitForMessageOfType<XTMessage>('dmi', {
+        timeout: 1000,
       })
 
       /**

@@ -9,5 +9,10 @@ export interface NetworkingRepositoryOptions {
   deploy_version: string
   domain?: 'flash' | 'mobile'
 
+  reconnect?: boolean
+  reconnectDelay?: number
+  reconnectAttempts?: number
+  maxReconnectAttempts?: number
+
   proxy?: Proxy
 }

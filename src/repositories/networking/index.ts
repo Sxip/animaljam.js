@@ -32,6 +32,18 @@ export class NetworkingRepository extends NetworkClient {
   public on (event: 'received', listener: (message: any) => any): this
   public on (event: 'error', listener: (error: Error) => any): this
   public on (event: 'close', listener: () => any): this
+
+  /**
+   * Reconnect events.
+   */
+  public on (event: 'reconnect', listener: () => any): this
+  public on (event: 'reconnecting', listener: ({ attempt, delay }: { attempt: number, delay: number }) => any): this
+  public on (event: 'reconnect_failed', listener: (error: Error) => any): this
+  public on (event: 'reconnect_error', listener: ({ attempt, delay }: { attempt: number, delay: number }) => any): this
+
+  /**
+   * Any other event.
+   */
   public on (event: any, listener: (...args: any[]) => void): this {
     super.on(event, listener)
     return this
@@ -50,6 +62,11 @@ export class NetworkingRepository extends NetworkClient {
       port: options.port,
       proxy: options.proxy,
       domain: options.domain ?? 'flash',
+
+      reconnect: options.reconnect,
+      reconnectDelay: options.reconnectDelay,
+      reconnectAttempts: options.reconnectAttempts,
+      maxReconnectAttempts: options.maxReconnectAttempts,
     })
   }
 
@@ -71,6 +88,11 @@ export class NetworkingRepository extends NetworkClient {
 
       domain: options.domain ?? 'flash',
       proxy: options.proxy ?? undefined,
+
+      reconnect: options.reconnect ?? false,
+      reconnectDelay: options.reconnectDelay ?? 1000,
+      reconnectAttempts: options.reconnectAttempts ?? 0,
+      maxReconnectAttempts: options.maxReconnectAttempts ?? 0,
     })
 
     await networking.usePacketHandlers()
@@ -86,6 +108,7 @@ export class NetworkingRepository extends NetworkClient {
 
 
     this.on('received', this.onReceivedMessage.bind(this))
+
     this.sendRawMessage(RndKMessage.build())
   }
 
@@ -144,7 +167,7 @@ export class NetworkingRepository extends NetworkClient {
    * @param timeout The timeout in milliseconds.
    * @returns {Promise<XMLMessage | JSONMessage | XTMessage>}
    */
-  public async waitForMessageOfType<T = XMLMessage | JSONMessage | XTMessage> ({ type, timeout }: { type: string, timeout: number }): Promise<T> {
+  public async waitForMessageOfType<T = XMLMessage | JSONMessage | XTMessage> (type: string, { timeout }: { timeout: number }): Promise<T> {
     return new Promise<T>((resolve, reject) => {
       const onMessage = (message: XMLMessage | JSONMessage | XTMessage) => {
         if (message.type === type) {

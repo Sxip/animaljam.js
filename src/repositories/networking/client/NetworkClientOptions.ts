@@ -5,4 +5,9 @@ export interface NetworkClientOptions {
   port: number
   proxy? : Proxy
   domain?: 'flash' | 'mobile'
+
+  reconnect?: boolean
+  reconnectDelay?: number
+  reconnectAttempts?: number
+  maxReconnectAttempts?: number
 }
