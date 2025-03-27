@@ -28,6 +28,7 @@ export class NetworkingRepository extends NetworkClient {
    * Event handlers.
    */
   public on (event: 'message', listener: (message: XMLMessage | JSONMessage | XTMessage) => void): this
+  public on (event: 'ready', listener: (user: User) => void): this
   public on (event: 'received', listener: (message: any) => any): this
   public on (event: 'error', listener: (error: Error) => any): this
   public on (event: 'close', listener: () => any): this
@@ -98,6 +99,16 @@ export class NetworkingRepository extends NetworkClient {
   }
 
   /**
+   * Sends a xt message to the server.
+   * @param args The arguments for the xt message.
+   * @returns {Promise<number>}
+   */
+  public async sendXTMessage (args: string[]): Promise<number> {
+     const message = `%xt%o%${args.join('%')}%`
+     return await this.sendRawMessage(message)
+  }
+
+  /**
    * Creates a hmac message for Animal Jam Play Wild.
    * @param message The message to create the hmac for.
    * @returns {string}
@@ -115,7 +126,7 @@ export class NetworkingRepository extends NetworkClient {
   }
 
   /**
-   * Connects to the server.
+   * Loads the packet handlers.
    * @returns {Promise<void>}
    */
   public async usePacketHandlers (): Promise<void> {
@@ -125,6 +136,30 @@ export class NetworkingRepository extends NetworkClient {
 
     for (const handler of handlers.filter(handler => /index\.(ts|js)$/i.test(handler))) 
       import(`./incoming/${handler}`)
+  }
+
+  /**
+   * Waits for a message of the specified type.
+   * @param type The type of message to wait for.
+   * @param timeout The timeout in milliseconds.
+   * @returns {Promise<XMLMessage | JSONMessage | XTMessage>}
+   */
+  public async waitForMessageOfType<T = XMLMessage | JSONMessage | XTMessage> ({ type, timeout }: { type: string, timeout: number }): Promise<T> {
+    return new Promise<T>((resolve, reject) => {
+      const onMessage = (message: XMLMessage | JSONMessage | XTMessage) => {
+        if (message.type === type) {
+          this.off('message', onMessage)
+          resolve(message as T)
+        }
+      }
+
+      this.on('message', onMessage)
+
+      setTimeout(() => {
+        this.off('message', onMessage)
+        reject(new Error(`Timeout waiting for message of type ${type}`))
+      }, timeout)
+    })
   }
 
   /**

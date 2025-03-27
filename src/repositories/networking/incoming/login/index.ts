@@ -34,5 +34,11 @@ export class LoginMessage {
     } else {
       await networking.sendRawMessage(`%xt%o%rj%-1%jamaa_township.room_main#-1%1%0%0%`)
     }
+
+    console.log('Login successful!')
+    /**
+     * Sets the user object.
+     */
+    networking.emit('ready', networking.user)
   }
 }
