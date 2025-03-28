@@ -5,10 +5,6 @@ import { AnimalJamClient } from '../src'
  * This example shows how to connect to the Animal Jam server and fetch masterpieces.
  */
 (async () => {
-    /**
-     * This account will probably be banned.
-     * Use your own account.
-     */
     const screen_name = 'screen_name'
     const password = 'password'
 
