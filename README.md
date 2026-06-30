@@ -1,7 +1,7 @@
 <div align="center">
   <br />
   <p>
-    <a href="#"><img src="https://github.com/user-attachments/assets/aaa0e7c1-5071-4f58-bb67-e04500edd072" width="200" /></a>
+    <a href="#"><img src="https://github.com/user-attachments/assets/aaa0e7c1-5071-4f58-bb67-e04500edd072" width="400" /></a>
   </p>
   <br />
 </div>
